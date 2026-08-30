@@ -1,0 +1,16 @@
+.Title {
+    background-image: url('/Title/title image.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+}
+
+#credits-icon {
+    width: 10%;
+    top: 2%;
+    left: 1%;
+    position: absolute;
+
+}

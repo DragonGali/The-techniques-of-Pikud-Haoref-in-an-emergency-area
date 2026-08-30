@@ -1,0 +1,33 @@
+:root {
+  --primary: #403E3C;
+  --secondary: #D9D9D9;
+  --highlight: #FB8B24;
+  --teritary-dark: #195187;
+  --teritary-light: #8CA4BB;
+  --background: #FFF4E9;
+  --background-light: #FFF7EF;
+
+  font-family: IBM Plex Sans, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  font-family: Arial, sans-serif;
+  background: var(--background);
+}
+
+body {
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
