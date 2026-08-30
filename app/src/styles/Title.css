@@ -3,14 +3,74 @@
     background-size: 100% 100%;
     background-repeat: no-repeat;
     overflow: hidden;
+
     width: 100vw;
     height: 100vh;
 }
 
-#credits-icon {
+
+/* Credits icon */
+
+.Title .credits-icon {
+    position: absolute;
+
     width: 10%;
     top: 2%;
     left: 1%;
+
+    transition:
+        width 0.4s ease,
+        top 0.4s ease,
+        left 0.4s ease;
+}
+
+.Title .credits-icon img {
+    position: absolute;
+    width: 100%;
+
+    transition: opacity 0.25s ease;
+}
+
+
+/* Normal icon */
+
+.Title .credits-icon-normal {
+    opacity: 1;
+}
+
+
+/* Open icon */
+
+.Title .credits-icon-open {
+    opacity: 0;
+}
+
+
+/* Hover */
+
+.Title .credits-icon:hover {
+    width: 35%;
+    top: -15%;
+    left: -7%;
+}
+
+.Title .credits-icon:hover .credits-icon-normal {
+    opacity: 0;
+}
+
+.Title .credits-icon:hover .credits-icon-open {
+    opacity: 1;
+}
+
+
+/* Title text */
+
+.Title .title-text {
     position: absolute;
 
+    right: 5%;
+    top: 3%;
+    width: 25%;
+
+    text-shadow: 0 4px 3.5px rgba(0, 0, 0, 0.4);
 }

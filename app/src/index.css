@@ -6,19 +6,31 @@
   --teritary-light: #8CA4BB;
   --background: #FFF4E9;
   --background-light: #FFF7EF;
+  --font-hebrew: 'IBM-Regular', sans-serif;
+}
 
-  font-family: IBM Plex Sans, sans-serif;
+.H1 {
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-family: 'IBM-Bold';
+}
+
+.H2 {
+  font-size: clamp(1.75rem, 3.5vw, 3rem);
+  font-family: 'IBM-Bold';
 }
 
 * {
   box-sizing: border-box;
+  font-family: var(--font-hebrew);
+  direction: rtl;
 }
+
 
 html, body, #root {
   margin: 0;
   width: 100%;
   min-height: 100%;
-  font-family: Arial, sans-serif;
+  font-family: var(--font-hebrew);
   background: var(--background);
 }
 
@@ -29,5 +41,54 @@ body {
 #root {
   width: 100%;
   min-height: 100vh;
+}
+
+@font-face {
+  font-family: 'IBM-Thin';
+  src: url('/fonts/IBMPlexSansHebrew-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM-ExtraLight';
+  src: url('/fonts/IBMPlexSansHebrew-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM-Light';
+  src: url('/fonts/IBMPlexSansHebrew-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM-Regular';
+  src: url('/fonts/IBMPlexSansHebrew-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM-Medium';
+  src: url('/fonts/IBMPlexSansHebrew-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM-SemiBold';
+  src: url('/fonts/IBMPlexSansHebrew-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM-Bold';
+  src: url('/fonts/IBMPlexSansHebrew-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
 }
 
