@@ -1,0 +1,117 @@
+.Tutorial {
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    overflow: hidden;
+
+    width: 100vw;
+    height: 100vh;
+}
+
+.Tutorial.light {
+    background-image: url('/Tutorial/Background-light.png');
+}
+
+.Tutorial.dark {
+    background-image: url('/Tutorial/Background-dark.png');
+}
+
+
+/* Theme toggle */
+
+.Tutorial .toggle-button {
+    position: absolute;
+
+    top: 1%;
+    left: 1%;
+
+    width: 10%;
+
+    padding: 0;
+    border: none;
+    background: none;
+
+    cursor: pointer;
+
+    transform-origin: center;
+    transition: transform 0.15s ease;
+}
+
+.Tutorial .toggle-button:active {
+    transform: scale(0.9);
+}
+
+
+.Tutorial .toggle-image {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.3s ease;
+}
+
+
+/* The visible image */
+
+.Tutorial .toggle-image.active {
+    opacity: 1;
+}
+
+/* =========================
+   Tutorial Card
+   ========================= */
+
+.Tutorial .tutorial-card {
+    position: absolute;
+
+    width: 75%;
+    height: 70%;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 26px;
+
+    box-shadow: 6px 7px 1.3px rgba(0, 0, 0, 0.25);
+
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* =========================
+   Light Card
+   ========================= */
+
+.Tutorial.light .tutorial-card {
+    background-color: var(--background);
+}
+
+/* =========================
+   Dark Card
+   ========================= */
+
+.Tutorial.dark .tutorial-card {
+    background-color: rgba(0, 0, 0, 0.76);
+}
+
+/**=========================
+   Tutorial Dialogue
+   ========================= */
+
+.Tutorial .tutorial-dialogue {
+    position: absolute;
+    color: var(--teritary-dark);
+    text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.25);
+    text-align: center;
+}

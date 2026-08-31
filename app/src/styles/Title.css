@@ -46,19 +46,19 @@
 }
 
 
-/* Hover */
+/* Clicked / Open */
 
-.Title .credits-icon:hover {
+.Title .credits-icon.open {
     width: 35%;
     top: -15%;
     left: -7%;
 }
 
-.Title .credits-icon:hover .credits-icon-normal {
+.Title .credits-icon.open .credits-icon-normal {
     opacity: 0;
 }
 
-.Title .credits-icon:hover .credits-icon-open {
+.Title .credits-icon.open .credits-icon-open {
     opacity: 1;
 }
 
@@ -73,4 +73,12 @@
     width: 25%;
 
     text-shadow: 0 4px 3.5px rgba(0, 0, 0, 0.4);
+}
+
+/* Broken glass button */
+#broken-glass-button {
+    position: absolute;
+    width: 25%;
+    bottom: -5%;
+    right: -5%;
 }
