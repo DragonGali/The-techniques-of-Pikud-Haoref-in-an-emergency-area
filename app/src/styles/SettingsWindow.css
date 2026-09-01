@@ -1,0 +1,46 @@
+.SettingsWindow {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: var(--background);
+
+}
+
+.SettingsWindow .header {
+    width: 100%;
+    height: 10vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--primary);
+
+    box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
+
+}
+
+.SettingsWindow .header p {
+    margin: 0;
+    color: var(--secondary);
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+.SettingsWindow .options {
+    border: 2px dashed var(--primary);
+    border-top: none;
+}
+
+.SettingsWindow .option {
+    border-top: 2px dashed var(--primary);
+}
+
+.SettingsWindow .option:hover {
+    /*Fix this*/
+    background-color: var(--secondary);
+}
+
+.SettingsWindow .option:first-child {
+    border-top: none;
+}

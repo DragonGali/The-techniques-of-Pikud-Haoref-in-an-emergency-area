@@ -3,9 +3,9 @@ import React, { createContext, useContext, useReducer } from 'react';
 const GameStateContext = createContext(null);
 
 const initialState = {
-  currentChapter: 1, //0
+  currentChapter: 0, //0
   theme: 'light',
-  currentDialogue: "dialogue_2",
+  currentDialogue: null , //null
   flags: {
     event: null,
   } 

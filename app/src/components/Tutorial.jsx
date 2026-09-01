@@ -2,6 +2,7 @@ import { useGameState } from './GameState.jsx';
 import '../styles/Tutorial.css';
 
 import DialogueManager from './DialogueManager.jsx';
+import SettingsWindow from './SettingsWindow.jsx';
 
 const Tutorial = () => {
 
@@ -45,7 +46,8 @@ const Tutorial = () => {
         {state.flags.event === 'tutorial_2' && (
           <div className='settings-showcase'>
             <img className="settings-icon" src='/General/Settings Icon.png' alt="Settings Icon" />
-            <img className="Pointer" src='Cursors/Pointer.png' alt="Pointer" />
+            <img className="pointer" src='/Tutorial/BigCursor.png' alt="Pointer" />
+            <SettingsWindow className="settings-window" />
           </div>
         )}
 
