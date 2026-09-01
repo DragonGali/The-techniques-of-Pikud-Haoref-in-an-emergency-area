@@ -3,9 +3,12 @@ import React, { createContext, useContext, useReducer } from 'react';
 const GameStateContext = createContext(null);
 
 const initialState = {
-  currentChapter: 0, //0
+  currentChapter: 1, //0
   theme: 'light',
-  currentDialogue: null,
+  currentDialogue: "dialogue_2",
+  flags: {
+    event: null,
+  } 
 };
 
 function gameStateReducer(state, action) {
@@ -28,6 +31,15 @@ function gameStateReducer(state, action) {
         ...state,
         currentDialogue: action.dialogue,
       };
+
+    case 'SET_FLAG':
+            return {
+                ...state,
+                flags: {
+                    ...state.flags,
+                    [action.key]: action.value
+                }
+            };
 
     default:
       return state;

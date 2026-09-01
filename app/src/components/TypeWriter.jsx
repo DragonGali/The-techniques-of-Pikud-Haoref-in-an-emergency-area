@@ -73,11 +73,11 @@ const TypeWriter = ({
       onClick={handleClick}
     >
 
-      <p>
+      <p className="clickable">
         {displayedText}
 
         {canAdvance && showTriangle && (
-          <span className="continue-triangle">
+          <span className="continue-triangle clickable">
             ▼
           </span>
         )}

@@ -86,6 +86,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 
@@ -105,6 +106,10 @@
     background-color: rgba(0, 0, 0, 0.76);
 }
 
+.Tutorial.dark .tutorial-card p {
+    color: var(--background);
+}
+
 /**=========================
    Tutorial Dialogue
    ========================= */
@@ -114,4 +119,55 @@
     color: var(--teritary-dark);
     text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.25);
     text-align: center;
+    width: 95%;
+    transition: margin-bottom 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/*==========================
+   Tutorial Event 1
+   ========================= */
+
+.Tutorial .tutorial-dialogue.event_1 {
+    margin-bottom: 25%;
+}
+.Tutorial .tutorial-dialogue.event_2{
+    margin-bottom: 30%;
+}
+
+.Tutorial .chapter-icons {
+    position: absolute;
+    width: 90%;
+    margin-top: 10%;
+
+    animation: fadeIn 1.5s ease forwards;
+}
+
+.Tutorial .settings-icon {
+    position: absolute;
+    width: 10%;
+    bottom: 30%;
+
+    animation: settingsOpen 0.6s ease forwards;
+    animation-delay: 2s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes settingsOpen {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(20deg);
+    }
+
 }

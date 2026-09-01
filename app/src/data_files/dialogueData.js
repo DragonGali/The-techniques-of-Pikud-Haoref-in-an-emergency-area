@@ -7,10 +7,11 @@ export const dialogueData = {
         },
         "dialogue_2" : {
             text : "בלומדה הזאתי נעבור על 9 שלבי טכניקת פיקוד על זירת אירוע",
+            onEnter: {type: 'SET_FLAG', key: 'event', value: 'tutorial_1'}
         },
         "dialogue_3" : {
-            text : "בכל שלב תינתן לך אפשרות לבחור את הפעולה הנכונה ביותר",
-            next: null
+            text : "אפשר יהיה לעבור שוב על השלבים דרך התפריט",
+            onEnter: {type: 'SET_FLAG', key: 'event', value: 'tutorial_2'},
         }
     } 
 }

@@ -33,7 +33,28 @@
   box-sizing: border-box;
   font-family: var(--font-hebrew);
   direction: rtl;
+
+  /*Restyling the defualt cursor*/
+  cursor: url('/Cursors/Default.png'), auto;
 }
+
+.clickable {
+  cursor: url('/Cursors/Pointer.png'), auto;
+}
+
+.grabbable:hover {
+  cursor: url('/Cursors/Pointer.png'), auto;
+}
+
+.grabbable:active {
+  cursor: url('/Cursors/Grabbing.png'), auto;
+}
+
+.readable {
+  cursor: url('/Cursors/Beam.png'), auto;
+}
+
+
 
 
 html, body, #root {

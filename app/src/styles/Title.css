@@ -76,7 +76,7 @@
 }
 
 /* Broken glass button */
-#broken-glass-button {
+.Title .broken-glass-button {
     position: absolute;
     width: 25%;
     bottom: -5%;

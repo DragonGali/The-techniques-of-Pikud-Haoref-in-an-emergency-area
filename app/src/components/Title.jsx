@@ -13,12 +13,12 @@ const Title = ({finish}) => {
 
       <div className={`credits-icon ${creditsOpen ? 'open' : ''}`} onClick={() => setCreditsOpen(!creditsOpen)}>
         <img
-          className="credits-icon-normal"
+          className="credits-icon-normal clickable"
           src="/Title/Credits Icon.png"
         />
 
         <img
-          className="credits-icon-open"
+          className="credits-icon-open clickable"
           src="/Title/Credits Icon-Open.png"
         />
       </div>
@@ -28,7 +28,7 @@ const Title = ({finish}) => {
       </p>
 
       <>{/*Might wanna make an animation for this button later.*/}</>
-      <img id="broken-glass-button" src="/Title/broken glass button.png" onClick={() => {dispatch({ type: 'SET_CHAPTER', chapter: 1 })}}/>
+      <img className="broken-glass-button clickable" src="/Title/broken glass button.png" onClick={() => {dispatch({ type: 'SET_CHAPTER', chapter: 1 })}}/>
     </div>
   
   )
