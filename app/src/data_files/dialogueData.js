@@ -16,6 +16,15 @@ export const dialogueData = {
         "dialogue_4" : {
             text: 'החלונית הזאתי נפתחת ואוצרת את המשחק ברגעים שצריך להסביר קצת יותר',
             onEnter: {type: 'SET_FLAG', key: 'event', value: 'tutorial_3'},
+        },
+        "dialogue_5" : {
+            text: 'שימו לב, עם מידע כלשהוא הוא מעודכן, אתם תראו את החלונית הזאתי.',
+            onEnter: {type: 'SET_FLAG', key: 'event', value: 'tutorial_4'},
+        },
+        "dialogue_6" : {
+            text: 'לפני שנתחיל, צריך לבחור את המחוז שבוא הלומדה תתרחש, זה ישפיע על התנאים באזור.',
+            onEnter: {type: 'SET_FLAG', key: 'event', value: null},
+            next: null
         }
     } 
 }

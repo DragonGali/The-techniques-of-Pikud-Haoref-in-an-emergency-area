@@ -1,0 +1,77 @@
+.PopUp {
+    position: fixed;
+
+    background-color: var(--primary);
+    opacity: 0.96;
+
+    box-shadow: 4.31px 5.02px 0 rgba(0, 0, 0, 1);
+}
+
+
+.PopUp .close-button {
+    position: absolute;
+    width: 7%;
+    top: 6.5%;
+    right: 2%;
+}
+
+.PopUp .PopUpCorner {
+    position: absolute;
+
+    width: 5%;
+    height: 15%;
+
+    border: 3px solid var(--black);
+}
+
+/* Remove the sides that shouldn't exist */
+
+.PopUp .topLeft {
+    top: 4%;
+    left: 1.5%;
+
+    border-right: none;
+    border-bottom: none;
+}
+
+.PopUp .topRight {
+    top: 4%;
+    right: 1.5%;
+
+    border-left: none;
+    border-bottom: none;
+}
+
+.PopUp .bottomLeft {
+    bottom: 4%;
+    left: 1.5%;
+
+    border-right: none;
+    border-top: none;
+}
+
+.PopUp .bottomRight {
+    bottom: 4%;
+    right: 1.5%;
+
+    border-left: none;
+    border-top: none;
+}
+
+.PopUp .attention-container {
+    position: absolute;
+
+    width: 100%;
+    height: 90%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+.PopUp .attention-icon {
+    width: 17%;
+    margin-bottom: -7%;
+}

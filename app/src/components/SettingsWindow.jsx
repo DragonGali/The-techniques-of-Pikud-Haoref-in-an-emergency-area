@@ -14,7 +14,7 @@ const SettingsWindow = ({ selectOption = () => {} }) => {
                     <p className="small">בחירת פרק</p>
                 </div>
                 <div className="option clickable" onClick={() => selectOption('exit')}>
-                    <p className="small">יציאה</p>
+                    <p className="small option-text">יציאה</p>
                 </div>
             </div>
         </div>

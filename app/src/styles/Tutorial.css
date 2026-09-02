@@ -106,7 +106,7 @@
     background-color: rgba(0, 0, 0, 0.76);
 }
 
-.Tutorial.dark .tutorial-card p {
+.Tutorial.dark .tutorial-card .tutorial-dialogue{
     color: var(--background);
 }
 
@@ -172,6 +172,63 @@
     opacity: 0;
 }
 
+/*==========================
+   Tutorial Event 3
+   ========================= */
+
+.Tutorial .tutorial-dialogue.event_3 {
+    margin-bottom: 25%;
+}
+
+.Tutorial .PopUp {
+    position: absolute;
+    width: 50%;
+    height: 40%;
+    bottom: 15%;
+    left: 25%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--white); 
+
+    pointer-events: none;
+    z-index: 1;
+
+    animation: fadeIn 1.5s ease forwards;
+}
+
+.Tutorial .pointer-2 {
+    z-index: 2;
+    position: absolute;
+    bottom: 28%;
+    right: 22%;
+    width: 6%;
+
+    animation: cursorMove2 3s ease-in-out forwards infinite;
+}
+
+/*==========================
+   Tutorial Event 4
+   ========================= */
+
+.Tutorial .tutorial-dialogue.event_4 {
+    margin-bottom: 25%;
+}
+
+.Tutorial .PopUp.attention {
+    width: 45%;
+    height: 50%;
+    left: 27.5%;
+    bottom: 10%;
+}
+
+/*Region selection*/
+
+.Tutorial .RegionSelection {
+    animation: fadeIn 1.5s ease forwards;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -191,8 +248,8 @@
         transform: rotate(20deg);
     }
 
-    46% {
-        transform: rotate(0deg);
+    55% {
+        transform: rotate(20deg);
     }
 
     /* Cooldown */
@@ -225,6 +282,28 @@
     80% {
         opacity: 1;
         transform: translate(170%, 100%);
+    }
+    
+    100% {
+        opacity: 0;
+        transform: translate(200%, 200%);
+    }
+}
+
+@keyframes cursorMove2 {
+    0% {
+        opacity: 0;
+        transform: translate(200%, 200%);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translate(-40%, -50%);
+    }
+
+    70% {
+        opacity: 1;
+        transform: translate(-40%, -50%);
     }
     
     100% {

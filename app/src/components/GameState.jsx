@@ -3,12 +3,14 @@ import React, { createContext, useContext, useReducer } from 'react';
 const GameStateContext = createContext(null);
 
 const initialState = {
-  currentChapter: 0, //0
+  currentChapter: 1, //0
   theme: 'light',
-  currentDialogue: null , //null
+  currentDialogue: "dialogue_2" , //null
   flags: {
     event: null,
-  } 
+  },
+  //Make sure to change the chapter names(it's wierd that it's justa number)
+  completed: [1] //empty
 };
 
 function gameStateReducer(state, action) {
@@ -40,6 +42,12 @@ function gameStateReducer(state, action) {
                     [action.key]: action.value
                 }
             };
+    
+    case 'MARK_COMPLETED':
+      return {
+        ...state,
+        completed: [...state.completed, action.chapter]
+      };
 
     default:
       return state;

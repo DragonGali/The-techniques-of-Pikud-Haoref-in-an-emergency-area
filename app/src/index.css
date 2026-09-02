@@ -7,11 +7,14 @@
   --background: #FFF4E9;
   --background-light: #FFF7EF;
   --font-hebrew: 'IBM-Regular', sans-serif;
+
+  --black: #000000;
+  --white: #FFFFFF;
 }
 
-.dark {
+/* .dark {
 
-}
+} */
 
 .H1 {
   font-size: clamp(2.5rem, 4vw, 4rem);
@@ -33,6 +36,12 @@
   font-size: clamp(1rem, 2vw, 2rem);
   font-family: 'IBM-Regular';
   font-weight: 400;
+}
+
+.body-bold {
+  font-size: clamp(1rem, 2vw, 2rem);
+  font-family: 'IBM-Bold';
+  font-weight: 700;
 }
 
 .small {

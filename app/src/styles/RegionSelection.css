@@ -1,0 +1,65 @@
+.RegionSelection {
+    width: 100%;
+    height: 100%;
+}
+
+.RegionSelection * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.RegionSelection .back-arrow {
+    position: absolute;
+    width: 10%;
+    top: 3%;
+    left: 2.5%;
+}
+
+.RegionSelection .title-group {
+    position: absolute;
+    top: 4%;
+    right: 0;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.RegionSelection .title {
+    color: var(--teritary-dark);
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+.RegionSelection .sub-title {
+    color: var(--primary);
+}
+
+.RegionSelection .tags {
+    position: absolute;
+    top: 31%;
+    left: 2%;
+    width: 95%;
+
+    display: flex;
+    gap: 1%;
+}
+
+.RegionSelection .tag-group {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.RegionSelection .tag-name {
+    color: var(--primary);
+    text-align: center;
+    text-shadow: 0 1.25px 0 rgba(0, 0, 0, 0.25);
+}
+
+.RegionSelection .tag {
+    width: 100%;
+}

@@ -36,6 +36,10 @@
     border-top: 2px dashed var(--primary);
 }
 
+.SettingsWindow .option-text {
+    color: var(--black);
+}
+
 .SettingsWindow .option:hover {
     /*Fix this*/
     background-color: var(--secondary);

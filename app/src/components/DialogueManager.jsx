@@ -3,7 +3,7 @@ import { useGameState } from './GameState.jsx';
 import { dialogueData } from '../data_files/dialogueData.js';
 import TypeWriter from './TypeWriter.jsx';
 
-const DialogueManager = ({
+const DialogueManager = ({ onComplete = () => {},
     className = ''
 }) => {
 
@@ -126,6 +126,10 @@ const DialogueManager = ({
         if (!nextDialogue) {
 
             console.log('Dialogue finished');
+            onComplete();
+            console.log(state.completed);
+            dispatch({type: 'MARK_COMPLETED', chapter: state.currentChapter});
+            console.log(state.completed);
             return;
 
         }
