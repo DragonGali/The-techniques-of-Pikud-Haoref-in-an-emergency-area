@@ -1,3 +1,124 @@
+/*
+ * ============================================================
+ * GLOBAL DESIGN SYSTEM
+ * ============================================================
+ *
+ * This file contains styles that are intended to be reused
+ * throughout the entire application.
+ *
+ * Before creating a new color, text size, cursor style, etc.,
+ * check here first. The goal is to keep the visual language of
+ * the entire game consistent with the Figma design.
+ *
+ *
+ * -------------------------
+ * COLORS
+ * -------------------------
+ *
+ * The colors below are the main colors used throughout the
+ * project. Prefer using these CSS variables instead of writing
+ * new hex values in individual components.
+ *
+ * --primary          Main dark/neutral color
+ * --secondary        Secondary neutral color
+ * --highlight        Main orange highlight color
+ * --teritary-dark    Dark blue
+ * --teritary-light   Light blue
+ * --background       Main background color
+ * --background-light Lighter background color
+ * --black / --white  Pure black and white when specifically needed
+ *
+ * The intention is for most of the application's colors to come
+ * from this system.
+ *
+ *
+ * -------------------------
+ * DARK MODE
+ * -------------------------
+ *
+ * .dark is reserved for the dark-mode styling.
+ *
+ * The color palette itself should remain the same between themes.
+ * Dark mode is intended to change HOW the existing colors are used,
+ * rather than creating a completely different set of colors.
+ *
+ * For example, an element that uses --background in light mode may
+ * use --primary or another existing palette color in dark mode.
+ *
+ * This means that dark-mode styling may need to be written
+ * separately for individual elements rather than simply changing
+ * the values inside :root.
+ *
+ * Keep the palette consistent. Change the composition/use of the
+ * colors instead.
+ *
+ * -------------------------
+ * TYPOGRAPHY
+ * -------------------------
+ *
+ * H1, H2, H3, body, body-bold and small are global text styles.
+ *
+ * Add these as class names to text elements instead of manually
+ * choosing font sizes for every individual component.
+ *
+ * The purpose is to keep typography consistent across the game.
+ *
+ * More text styles may be added here as the project develops.
+ *
+ *
+ * -------------------------
+ * CURSORS / INTERACTION
+ * -------------------------
+ *
+ * The project uses custom cursors instead of the browser's
+ * default cursor.
+ *
+ * Use:
+ *
+ * .clickable  - An element that can be clicked
+ * .grabbable  - An element that can be dragged
+ * .readable   - An element where the text cursor is appropriate
+ *
+ * IMPORTANT:
+ * Do NOT use cursor: pointer on individual elements.
+ * Use the appropriate class instead so that the cursor style
+ * remains consistent with the rest of the application.
+ *
+ *
+ * -------------------------
+ * NOISE & TEXTURE
+ * -------------------------
+ *
+ * Noise is an important part of the visual style of this project.
+ * The Figma designs use noise and textures extensively to make
+ * otherwise flat UI elements feel more physical and integrated
+ * with the realistic visual style.
+ *
+ * .noise adds the reusable noise effect.
+ *
+ * A reusable texture system should also be added here in the
+ * future. Do not create one-off texture implementations if the
+ * effect can be made into a reusable global class.
+ *
+ *
+ * -------------------------
+ * GENERAL RULE
+ * -------------------------
+ *
+ * This file is the place for styles that are shared across the
+ * entire application.
+ *
+ * If you find yourself repeatedly using the same color, text
+ * style, cursor, or visual effect in multiple components,
+ * consider adding it here as a reusable global style instead
+ * of duplicating it.
+ */
+
+
+/* ============================================================
+   COLOR SYSTEM
+   ============================================================ */
+
 :root {
   --primary: #403E3C;
   --secondary: #D9D9D9;
@@ -12,9 +133,16 @@
   --white: #FFFFFF;
 }
 
-/* .dark {
+/* 
+.dark {
+  ...
+}
+*/
 
-} */
+
+/* ============================================================
+   GLOBAL TEXT STYLES
+   ============================================================ */
 
 .H1 {
   font-size: clamp(2.5rem, 4vw, 4rem);
@@ -50,14 +178,24 @@
   font-weight: 400;
 }
 
+
+/* ============================================================
+   GLOBAL DEFAULTS
+   ============================================================ */
+
 * {
   box-sizing: border-box;
   font-family: var(--font-hebrew);
   direction: rtl;
 
-  /*Restyling the defualt cursor*/
+  /* Restyling the default cursor */
   cursor: url('/Cursors/Default.png'), auto;
 }
+
+
+/* ============================================================
+   INTERACTION CURSORS
+   ============================================================ */
 
 .clickable {
   cursor: url('/Cursors/Pointer.png'), auto;
@@ -76,7 +214,9 @@
 }
 
 
-
+/* ============================================================
+   PAGE DEFAULTS
+   ============================================================ */
 
 html, body, #root {
   margin: 0;
@@ -95,11 +235,21 @@ body {
   min-height: 100vh;
 }
 
-/*Global Styles - Stuff that I use frequently*/
 
-/* =========================
-   Noise Texture
-   ========================= */
+/* ============================================================
+   GLOBAL VISUAL EFFECTS
+   ============================================================ */
+
+/*
+ * Noise
+ *
+ * The Figma design uses noise heavily as part of the visual
+ * language. This class can be added to elements that should
+ * receive the standard noise overlay.
+ *
+ * The noise is implemented using a pseudo-element so that it
+ * does not interfere with the content of the element itself.
+ */
 
 .noise {
     position: relative;
@@ -128,6 +278,10 @@ body {
     pointer-events: none;
 }
 
+
+/* ============================================================
+   FONTS
+   ============================================================ */
 
 @font-face {
   font-family: 'IBM-Thin';
@@ -177,4 +331,3 @@ body {
   font-weight: 700;
   font-style: normal;
 }
-

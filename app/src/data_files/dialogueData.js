@@ -1,3 +1,44 @@
+/*
+ * -------------------------
+ * Different types of data
+ * -------------------------
+ *
+ * Not all text/content in the game needs to use this same data
+ * structure.
+ *
+ * `dialogueData` is specifically for character dialogue and works
+ * around a sequence of dialogue entries that can trigger events and
+ * control the flow of the game.
+ *
+ * Other types of content may need their own data files because they
+ * work differently.
+ *
+ * For example, the manual is not a dialogue sequence. It is a larger
+ * collection of informational text that the player reads and navigates
+ * through, so it should have its own data structure and data file.
+ *
+ * The same principle can be used for other systems if their data
+ * behaves differently from dialogue.
+ *
+ * Do not try to force every type of game content into `dialogueData`
+ * just to keep everything in one file. Each system should have a data
+ * structure that fits the way that system actually works.
+ *
+ * For example:
+ *
+ *     dialogueData.js
+ *         → Character dialogue and dialogue flow
+ *
+ *     manualData.js
+ *         → Manual/instructional content
+ *
+ *     taskData.js
+ *         → Task-specific information and configuration
+ *
+ * The components that display these systems should then handle the
+ * appropriate data format.
+ */
+
 import { useGameState } from '../components/GameState.jsx';
 
 export const dialogueData = {

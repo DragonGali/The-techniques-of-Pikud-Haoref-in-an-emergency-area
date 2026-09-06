@@ -3,6 +3,15 @@ import '../styles/Title.css'
 import { useState } from 'react';
 import { useGameState } from './GameState.jsx';
 
+// Title screen.
+//
+// This is the starting screen of the game. The player can open the credits
+// and start the game, which currently switches GameState to chapter 1.
+//
+// The transition from the Title screen into the Tutorial should eventually
+// be animated: the Title screen should move downward as the Tutorial loads.
+// The chapter transition system will need to handle this rather than simply
+// replacing the screen immediately.
 const Title = ({finish}) => {
 
   const { dispatch } = useGameState();
@@ -27,7 +36,7 @@ const Title = ({finish}) => {
         טכניקות פיקוד העורף על זירת אירוע
       </p>
 
-      <>{/*Might wanna make an animation for this button later.*/}</>
+      <>{/* Might wanna make an animation for this button later. */}</>
       <img className="broken-glass-button clickable" src="/Title/broken glass button.png" onClick={() => {dispatch({ type: 'SET_CHAPTER', chapter: 1 })}}/>
     </div>
   
