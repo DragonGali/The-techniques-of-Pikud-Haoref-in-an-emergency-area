@@ -46,8 +46,8 @@ const RegionSelection = ({ onSelectRegion }) => {
             />
 
             <div className="title-group">
-                <p className="title H2">בחר את האזור המבצעי</p>
-                <p className="sub-title body">
+                <p className={`title H2 ${state.theme}`}>בחר את האזור המבצעי</p>
+                <p className={`sub-title body ${state.theme}`}>
                     האזור שתבחר יקבע את מפת הסימולציה, סוג האיומים והכלים
                 </p>
             </div>
@@ -55,7 +55,7 @@ const RegionSelection = ({ onSelectRegion }) => {
             <div className="tags">
                 {regions.reverse().map(region =>
                     <div className="tag-group">
-                        <p className="tag-name body-bold">{region}</p>
+                        <p className={`tag-name body-bold ${state.theme}`}>{region}</p>
                         <img
                             className="tag clickable"
                             src={`/Tutorial/${region}.png`}
