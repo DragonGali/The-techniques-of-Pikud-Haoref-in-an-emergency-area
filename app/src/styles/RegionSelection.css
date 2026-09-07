@@ -55,14 +55,16 @@
     gap: 1%;
 }
 
-.RegionSelection .tag-group {
+.RegionSelection .tag-group,
+.RegionSelection .chosen-tag-group {
     width: 30%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
 
-.RegionSelection .tag-name {
+.RegionSelection .tag-name,
+.RegionSelection .chosen-tag-name {
     color: var(--primary);
     text-align: center;
     text-shadow: 0 1.25px 0 rgba(0, 0, 0, 0.25);
@@ -74,4 +76,76 @@
 
 .RegionSelection .tag {
     width: 100%;
+}
+
+/*Chosen tag styling*/
+
+.RegionSelection .chosen-region {
+    display: grid;
+    grid-template-columns: 14vw minmax(0, 55vw);
+    gap: 2rem;
+    align-items: start;
+    justify-content: center;
+    direction: ltr;
+}
+
+.RegionSelection .chosen-tag-group {
+    width: 100%;
+    z-index: 2;
+}
+
+.RegionSelection .region-details {
+    margin-top: 6.5vh;
+    margin-left: -9vw;
+
+    width: calc(100% + 6.5vw);
+    min-height: 40vh;
+
+    background-color: var(--background-light);
+    box-shadow: inset -10.27px 8.8px 6.31px rgba(0, 0, 0, 0.25);
+
+    display: flex;
+    flex-direction: row-reverse;
+
+    z-index: 1;
+}
+
+.RegionSelection .features {
+    margin-top: 4vh;
+    margin-left: 7vw;
+    display: flex;
+    flex-flow: row-reverse;
+    gap: 5vw;
+}
+
+.RegionSelection .region-details .feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+
+    width: 13vw;
+    flex-shrink: 0;
+}
+.RegionSelection .region-details .feature img {
+    width: 100%;
+    height: 10vw;
+    object-fit: contain;
+    display: block;
+}
+
+.RegionSelection .region-details .feature-name {
+    color: var(--primary);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.RegionSelection .feature-details {
+    color: var(--teritary-light);
+    margin: 0;
+    padding: 0;
+    object-fit: contain;
+    text-align: center;
+    width: 120%;
 }

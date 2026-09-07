@@ -99,11 +99,11 @@ import React, { createContext, useContext, useReducer } from 'react';
 const GameStateContext = createContext(null);
 
 const initialState = {
-  currentChapter: 0,
+  currentChapter: 1,
 
   theme: 'light',
 
-  currentDialogue: null,
+  currentDialogue: "dialogue_2",
 
   flags: {
     event: null,
@@ -111,7 +111,7 @@ const initialState = {
 
   // TODO: Consider using named chapter IDs instead of plain numbers.
   // This would make the state easier to read and maintain.
-  completed: [] // empty
+  completed: [1] // empty
 };
 
 
