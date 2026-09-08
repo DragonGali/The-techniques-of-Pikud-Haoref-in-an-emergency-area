@@ -245,7 +245,7 @@ const Tutorial = () => {
          */}
         {state.completed.includes(state.currentChapter) && (
           <div>
-            <RegionSelection/>
+            <RegionSelection onSelectRegion={() => {console.log("check")}}/>
           </div>
         )}
 

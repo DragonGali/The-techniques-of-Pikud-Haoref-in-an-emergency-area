@@ -31,6 +31,7 @@ import "../styles/RegionSelection.css"
 import { useState } from "react";
 import { useGameState } from './GameState.jsx';
 import { regionData } from "../data_files/regionData.js";
+import Button from "./Button.jsx"
 
 const RegionSelection = ({ onSelectRegion }) => {
 
@@ -57,9 +58,20 @@ const RegionSelection = ({ onSelectRegion }) => {
             }
 
             {chosenRegion && 
-            <div>
-
-            </div>
+                <Button
+                    text="בחר אזור"
+                    baseColor={
+                        state.theme === "dark"
+                            ? "var(--background)"
+                            : "var(--teritary-light)"
+                    }
+                    textColor={
+                        state.theme === "dark"
+                            ? "var(--primary)"
+                            : "var(--white)"
+                    }
+                    onClick={() => {dispatch({type: 'SET_REGION', region: chosenRegion}); onSelectRegion();}}
+                />
             }
 
             {!chosenRegion && 
@@ -79,6 +91,7 @@ const RegionSelection = ({ onSelectRegion }) => {
                 </div>
             }
 
+            {/*New Addition, havent made a nice transition animation for the tag yet*/}
             {chosenRegion && 
                 <div className='chosen-region'>
                     <div className="chosen-tag-group">
@@ -88,7 +101,7 @@ const RegionSelection = ({ onSelectRegion }) => {
                         src={`/Tutorial/${chosenRegion}.png`}
                         />
                     </div>
-                    <div className="region-details">
+                    <div className={`region-details ${state.theme}`}>
                         <div className="features">
                             <div className="feature">
                                 <img src={`${regionData[chosenRegion].land.imageSrc}`}/>

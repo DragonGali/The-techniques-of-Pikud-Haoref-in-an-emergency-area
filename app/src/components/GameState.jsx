@@ -104,6 +104,7 @@ const initialState = {
   theme: 'light',
 
   currentDialogue: "dialogue_2",
+  region: null,
 
   flags: {
     event: null,
@@ -151,6 +152,12 @@ function gameStateReducer(state, action) {
         ...state,
         currentDialogue: action.dialogue,
       };
+
+    case 'SET_REGION':
+      return {
+        ...state,
+        region: action.region
+      }
 
 
     // Add or update a game flag.

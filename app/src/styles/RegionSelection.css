@@ -70,7 +70,8 @@
     text-shadow: 0 1.25px 0 rgba(0, 0, 0, 0.25);
 }
 
-.RegionSelection .tag-name.dark {
+.RegionSelection .tag-name.dark,
+.RegionSelection .chosen-tag-name.dark {
     color: var(--white);
 }
 
@@ -87,6 +88,7 @@
     align-items: start;
     justify-content: center;
     direction: ltr;
+    margin-top: 5%;
 }
 
 .RegionSelection .chosen-tag-group {
@@ -94,9 +96,13 @@
     z-index: 2;
 }
 
+.RegionSelection .chosen-tag {
+    width: 14.5vw;
+}
+
 .RegionSelection .region-details {
     margin-top: 6.5vh;
-    margin-left: -9vw;
+    margin-left: -9.5vw;
 
     width: calc(100% + 6.5vw);
     min-height: 40vh;
@@ -110,9 +116,13 @@
     z-index: 1;
 }
 
+.RegionSelection .region-details.dark {
+    background-color: var(--primary);
+}
+
 .RegionSelection .features {
     margin-top: 4vh;
-    margin-left: 7vw;
+    margin-left: 8vw;
     display: flex;
     flex-flow: row-reverse;
     gap: 5vw;
@@ -123,7 +133,6 @@
     flex-direction: column;
     align-items: center;
     gap: 0.1rem;
-
     width: 13vw;
     flex-shrink: 0;
 }
@@ -141,6 +150,10 @@
     text-align: center;
 }
 
+.RegionSelection .region-details.dark .feature-name {
+    color: var(--secondary);
+}
+
 .RegionSelection .feature-details {
     color: var(--teritary-light);
     margin: 0;
@@ -148,4 +161,13 @@
     object-fit: contain;
     text-align: center;
     width: 120%;
+}
+
+/*Button Styling*/
+.RegionSelection .Button {
+    width: 34%;
+    height: 20%;
+    position: absolute;
+    top: 5%;
+    left: 35%;
 }

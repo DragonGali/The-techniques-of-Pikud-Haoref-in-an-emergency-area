@@ -1,0 +1,166 @@
+.Button {
+    --depth-y: 22%;
+    --depth-x: 6%;
+    --press-depth: 0%;
+
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    padding: 0;
+    border: none;
+    background: none;
+
+    font: inherit;
+    cursor: pointer;
+}
+
+
+/* =========================
+   DARK UNDERSIDE
+   ========================= */
+
+.Button::before {
+    content: '';
+
+    position: absolute;
+    left: 3%;
+    bottom: 0;
+
+    z-index: 3;
+
+    width: calc(100% - var(--depth-x));
+    height: calc(var(--depth-y) - var(--press-depth) + 0.2 * var(--press-depth));
+
+    background: color-mix(
+        in srgb,
+        var(--button-color) 25%,
+        #220914
+    );
+
+    clip-path: polygon(
+        0 0,
+        90% 0%,
+        100% 100%,
+        10% 100%
+    );
+}
+
+
+/* =========================
+   RIGHT SIDE
+   ========================= */
+
+.Button::after {
+    content: '';
+
+    position: absolute;
+    right: 0;
+    bottom: calc(var(--depth-y) - var(--press-depth));
+
+    width: var(--depth-x);
+    height: calc(90% - var(--depth-y) + var(--press-depth));
+
+    z-index: 2;
+
+    background: color-mix(
+        in srgb,
+        var(--button-color) 45%,
+        white
+    );
+
+    clip-path: polygon(
+        0 0,
+        100% 30%,
+        100% 100%,
+        0 80%
+    );
+}
+
+
+/* =========================
+   TOP SURFACE
+   ========================= */
+
+.button-top {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: calc(100% - var(--depth-x));
+    height: calc(100% - var(--depth-y));
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--button-color);
+    color: var(--button-text-color);
+
+    border-radius: 12px;
+
+    z-index: 1;
+
+    transition: transform 70ms ease;
+}
+
+
+.button-text {
+    margin: 0;
+}
+
+
+/* =========================
+   BOTTOM-RIGHT CORNER
+   ========================= */
+
+.button-corner {
+    position: absolute;
+
+    right: 0;
+    bottom: 0;
+
+    width: 70%;
+    height: 70%;
+
+    background: linear-gradient(
+        135deg,
+        var(--button-color),
+        color-mix(
+            in srgb,
+            var(--button-color) 45%,
+            #220914
+        )
+    );
+
+    clip-path: polygon(
+        0 0,
+        100% 0%,
+        100% 100%,
+        0 100%
+    );
+
+    border-radius: 12px;
+
+    transition:
+        height 70ms ease,
+        bottom 70ms ease;
+}
+
+
+/* =========================
+   PRESSED
+   ========================= */
+
+.Button:active {
+    --press-depth: 8%;
+}
+
+.Button:active .button-top {
+    transform: translateY(var(--press-depth));
+}
+
+.Button:active .button-corner {
+    height: calc(70% - var(--press-depth));
+}
