@@ -19,20 +19,7 @@
  *    Handles displaying the dialogue text and the typing animation.
  *
  *
- * The basic flow is:
- *
- *     dialogueData
- *          ↓
- *     DialogueManager
- *          ↓
- *     TypeWriter
- *          ↓
- *     Player advances
- *          ↓
- *     DialogueManager enters the next dialogue
- *
- *
- * DialogueManager is responsible for the LOGIC of the dialogue.
+ * DialogueManager is responsible for the FLOW of dialogue.
  * TypeWriter is responsible for HOW the dialogue is displayed.
  *
  *
@@ -47,8 +34,7 @@
  *     chapter_3
  *     ...
  *
- * The current chapter is taken from GameState and converted into
- * the appropriate key:
+ * The current chapter is taken from GameState and converted into:
  *
  *     `chapter_${state.currentChapter}`
  *
@@ -65,44 +51,68 @@
  *
  * 1. GameState is updated with the new dialogue ID.
  * 2. Any `onEnter` actions defined by that dialogue are dispatched.
- * 3. The typing state is reset so the new text can begin typing.
- *
- * `onEnter` can contain either one action or an array of actions.
- * This allows a dialogue to trigger things such as changing flags
- * or starting an event when it begins.
+ * 3. The dialogue's waitFor condition is stored locally.
+ * 4. The typing state is reset.
  *
  *
  * -------------------------
  * Advancing dialogue
  * -------------------------
  *
- * When the player finishes reading the current dialogue,
- * `advanceDialogue()` determines which dialogue should come next.
+ * Normally, the player advances the dialogue by interacting with
+ * the TypeWriter.
  *
- * There are two ways to define the next dialogue:
+ * The next dialogue can be defined in two ways:
  *
  * 1. Explicit `next`
  *
- *    A dialogue can specify exactly which dialogue should follow it.
- *
- *    Example:
- *
  *        next: "dialogue_5"
  *
- *    This is useful when the dialogue flow branches or does not
- *    follow a simple numerical order.
- *
- * 2. Automatic progression
- *
- *    If `next` is not specified, DialogueManager automatically tries
- *    to use the next dialogue number.
+ * 2. Automatic numerical progression
  *
  *        dialogue_1 → dialogue_2 → dialogue_3 → ...
  *
- *    The automatically calculated dialogue is only used if it actually
- *    exists in the current chapter.
+ * If `next` is not specified, DialogueManager looks for the next
+ * numerical dialogue.
  *
- *    If it does not exist, the dialogue sequence is considered finished.
+ *
+ * -------------------------
+ * waitFor
+ * -------------------------
+ *
+ * A dialogue can wait for something elsewhere in the game before
+ * continuing.
+ *
+ * Example:
+ *
+ *     waitFor: { flag: 'region' }
+ *
+ * This means the dialogue will not advance until:
+ *
+ *     state.flags.region
+ *
+ * becomes truthy.
+ *
+ * The waitFor condition is stored in `waitingFor`.
+ *
+ * Whenever the relevant GameState changes, the advancement effect
+ * checks the condition again.
+ *
+ * When the condition becomes satisfied, the dialogue automatically
+ * advances.
+ *
+ *
+ * -------------------------
+ * Supported wait conditions
+ * -------------------------
+ *
+ * Currently supported:
+ *
+ *     { flag: 'someFlag' }
+ *     { completed: 1 }
+ *
+ * Additional condition types can be added to evaluateWaitFor()
+ * later without changing the rest of DialogueManager.
  *
  *
  * -------------------------
@@ -111,82 +121,16 @@
  *
  * When there is no next dialogue:
  *
- * - `onComplete()` is called so the component using DialogueManager
- *   can react to the dialogue sequence finishing.
- * - The current chapter is marked as completed in GameState.
- *
- * This allows a chapter to move from its dialogue section into
- * whatever comes next, such as a manual, task, review, or another
- * chapter component.
- *
- *
- * -------------------------
- * Important design principle
- * -------------------------
- *
- * DialogueManager should handle the FLOW of dialogue, not the
- * visual presentation of the text.
- *
- * If the typing animation, text appearance, or reading indicator
- * needs to change, look at TypeWriter.
- *
- * If the order, branching, events, or conditions of the dialogue
- * need to change, look at DialogueManager and dialogueData.
- * 
- *
- * -------------------------
- * Planned dialogue features
- * -------------------------
- *
- * The dialogue system is intended to be expanded with more advanced
- * control over dialogue flow.
- *
- * `onWait`
- *    A dialogue will be able to specify one or more conditions that
- *    must be satisfied before the player can advance.
- *
- *    For example, a dialogue could wait until a specific game flag
- *    has been set:
- *
- *        onWait: ...
- *
- *    This allows dialogue to pause while the player performs an action
- *    elsewhere in the game, and continue only after that action is done.
- *
- * Multiple events
- *    A single dialogue will be able to trigger multiple events/actions
- *    when it is entered. This is intended to work alongside `onEnter`
- *    rather than limiting a dialogue to a single event.
- *
- * Multiple `onWait` conditions
- *    A dialogue will eventually be able to wait for multiple conditions.
- *    The dialogue should only become advanceable once the required
- *    conditions have been satisfied.
- *
- * Conditional next dialogue
- *    If needed, the next dialogue can also be selected conditionally.
- *
- *    For example:
- *
- *        If the player made a mistake:
- *            → go back to an earlier dialogue
- *
- *        If the player succeeded:
- *            → continue to the next dialogue
- *
- *    This was used in the previous "Protocol Game" project and may
- *    be useful for creating dialogue flows that react to player
- *    performance.
- *
- * These features are NOT fully implemented yet. The current system
- * should be treated as the foundation for this more flexible dialogue
- * flow.
+ * - `onComplete()` is called.
+ * - The current chapter is marked as completed.
  */
 
 import { useEffect, useState } from 'react';
+
 import { useGameState } from './GameState.jsx';
 import { dialogueData } from '../data_files/dialogueData.js';
 import TypeWriter from './TypeWriter.jsx';
+
 
 const DialogueManager = ({
     onComplete = () => {},
@@ -197,7 +141,22 @@ const DialogueManager = ({
 
     const [textDone, setTextDone] = useState(false);
 
-    // Build the key used to access this chapter's dialogue data.
+    /*
+     * Store the waitFor condition of the CURRENT dialogue.
+     *
+     * This is the same approach used in ProtocolGame.
+     *
+     * Instead of trying to read waitFor directly from dialogueData
+     * inside the effect, we explicitly update this state whenever
+     * we enter a new dialogue.
+     */
+    const [waitingFor, setWaitingFor] = useState(null);
+
+
+    // --------------------------------------------------
+    // CHAPTER KEY
+    // --------------------------------------------------
+
     const chapterKey = `chapter_${state.currentChapter}`;
 
 
@@ -205,11 +164,6 @@ const DialogueManager = ({
     // GET CURRENT DIALOGUE
     // --------------------------------------------------
 
-    /*
-     * Find the dialogue currently stored in GameState.
-     *
-     * Returns null if there is no active dialogue.
-     */
     const getCurrentDialogue = () => {
 
         if (!state.currentDialogue) {
@@ -221,49 +175,105 @@ const DialogueManager = ({
 
 
     // --------------------------------------------------
+    // EVALUATE WAIT FOR
+    // --------------------------------------------------
+
+    /*
+     * Check whether the current waitFor condition is satisfied.
+     *
+     * Returns:
+     *
+     *     null  → there is no wait condition
+     *     true  → the condition is satisfied
+     *     false → the condition is not satisfied
+     */
+    const evaluateWaitFor = (wait) => {
+
+        if (!wait) {
+            return null;
+        }
+
+
+        // Wait for a GameState flag to become truthy.
+        if (wait.flag) {
+            return Boolean(state.flags[wait.flag]);
+        }
+
+
+        // Wait for a chapter to be completed.
+        if (wait.completed !== undefined) {
+            return state.completed.includes(wait.completed);
+        }
+
+
+        // Unknown condition.
+        return false;
+    };
+
+
+    // --------------------------------------------------
     // ENTER DIALOGUE
     // --------------------------------------------------
 
     /*
      * Enter a specific dialogue.
      *
-     * This updates GameState, runs any actions attached to the
-     * dialogue's `onEnter`, and resets the typing state.
+     * This updates GameState, runs the dialogue's onEnter actions,
+     * stores its waitFor condition, and resets the TypeWriter.
      */
     const setDialogue = (dialogueId) => {
 
-        const dialogue = dialogueData[chapterKey]?.[dialogueId];
+        const dialogue =
+            dialogueData[chapterKey]?.[dialogueId];
+
 
         if (!dialogue) {
-            console.warn(`Dialogue not found: ${dialogueId}`);
+
+            console.warn(
+                `Dialogue not found: ${dialogueId}`
+            );
+
             return;
         }
 
 
-        // Update GameState first so the rest of the application
-        // knows which dialogue is currently active.
+        // Tell GameState which dialogue is now active.
         dispatch({
             type: 'SET_DIALOGUE',
             dialogue: dialogueId
         });
 
 
-        /*
-         * Run actions that should happen when entering this dialogue.
-         *
-         * `onEnter` can either be a single action or an array of actions.
-         */
+        // Run actions that should happen when entering this dialogue.
         if (dialogue.onEnter) {
 
             if (Array.isArray(dialogue.onEnter)) {
+
                 dialogue.onEnter.forEach(action => {
                     dispatch(action);
                 });
-            } else {
-                dispatch(dialogue.onEnter);
-            }
 
+            } else {
+
+                dispatch(dialogue.onEnter);
+
+            }
         }
+
+
+        /*
+         * Store the wait condition of this dialogue.
+         *
+         * For example:
+         *
+         *     dialogue_7:
+         *         waitFor: { flag: 'region' }
+         *
+         * becomes:
+         *
+         *     waitingFor = { flag: 'region' }
+         */
+        setWaitingFor(dialogue.waitFor || null);
 
 
         // The new dialogue has not finished typing yet.
@@ -276,8 +286,7 @@ const DialogueManager = ({
     // --------------------------------------------------
 
     /*
-     * If there is no dialogue currently selected,
-     * automatically start with dialogue_1.
+     * If there is no active dialogue, start with dialogue_1.
      */
     useEffect(() => {
 
@@ -293,11 +302,7 @@ const DialogueManager = ({
     // --------------------------------------------------
 
     /*
-     * Decide what dialogue should be shown next.
-     *
-     * Explicit `next` values take priority.
-     * If no `next` is provided, the system tries to continue
-     * numerically (dialogue_1 → dialogue_2 → dialogue_3...).
+     * Move to the next dialogue.
      */
     const advanceDialogue = () => {
 
@@ -308,67 +313,183 @@ const DialogueManager = ({
         }
 
 
-        let nextDialogue = currentDialogue.next;
+        // --------------------------------------------------
+        // CHECK WAIT FOR
+        // --------------------------------------------------
+
+        const waitStatus =
+            evaluateWaitFor(waitingFor);
 
 
-        // If "next" isn't specified, automatically try to use
-        // the next dialogue number.
+        /*
+         * If this dialogue is waiting for something and
+         * the condition has not been satisfied, do nothing.
+         */
+        if (
+            waitingFor &&
+            waitStatus === false
+        ) {
+            return;
+        }
+
+
+        // --------------------------------------------------
+        // FIND NEXT DIALOGUE
+        // --------------------------------------------------
+
+        let nextDialogue =
+            currentDialogue.next;
+
+
+        /*
+         * If `next` was not explicitly specified, try to find
+         * the next dialogue numerically.
+         */
         if (nextDialogue === undefined) {
 
             const currentNumber =
-                Number(state.currentDialogue.split('_')[1]);
+                Number(
+                    state.currentDialogue.split('_')[1]
+                );
+
 
             const automaticNext =
                 `dialogue_${currentNumber + 1}`;
 
 
-            // Only use the automatically calculated dialogue
-            // if it actually exists.
-            if (dialogueData[chapterKey]?.[automaticNext]) {
+            if (
+                dialogueData[chapterKey]?.[automaticNext]
+            ) {
 
                 nextDialogue = automaticNext;
 
             } else {
 
                 nextDialogue = null;
-
             }
-
         }
 
 
-        /*
-         * No next dialogue means the dialogue sequence is finished.
-         */
+        // --------------------------------------------------
+        // DIALOGUE FINISHED
+        // --------------------------------------------------
+
         if (!nextDialogue) {
 
             console.log('Dialogue finished');
 
-            // Let the parent component react to the dialogue finishing.
+
             onComplete();
 
-            // Mark the current chapter as completed.
+
             dispatch({
                 type: 'MARK_COMPLETED',
                 chapter: state.currentChapter
             });
 
+
             return;
         }
 
 
-        // Enter the next dialogue.
+        // --------------------------------------------------
+        // ENTER NEXT DIALOGUE
+        // --------------------------------------------------
+
         setDialogue(nextDialogue);
     };
 
 
-    const currentDialogue = getCurrentDialogue();
+    // --------------------------------------------------
+    // ADVANCEMENT LOGIC
+    // --------------------------------------------------
+
+    /*
+     * This effect is based directly on the ProtocolGame
+     * DialogueManager pattern.
+     *
+     * It runs whenever:
+     *
+     * - The text finishes typing.
+     * - The waitFor condition changes.
+     * - GameState flags change.
+     * - Completed chapters change.
+     *
+     * If there is a waitFor condition and it becomes satisfied,
+     * the dialogue automatically advances.
+     */
+    useEffect(() => {
+
+        if (!textDone) {
+            return;
+        }
 
 
-    // Dialogue has not been initialized yet.
+        const currentDialogue =
+            getCurrentDialogue();
+
+
+        if (!currentDialogue) {
+            return;
+        }
+
+
+        // Check the current waitFor condition.
+        const waitConditionStatus =
+            evaluateWaitFor(waitingFor);
+
+
+        /*
+         * Automatically advance only when:
+         *
+         * 1. A waitFor condition exists.
+         * 2. The condition has been satisfied.
+         */
+        if (
+            waitingFor &&
+            waitConditionStatus === true
+        ) {
+
+            advanceDialogue();
+        }
+
+
+    }, [
+        textDone,
+        waitingFor,
+        state.completed,
+        state.flags
+    ]);
+
+
+    // --------------------------------------------------
+    // CURRENT DIALOGUE
+    // --------------------------------------------------
+
+    const currentDialogue =
+        getCurrentDialogue();
+
+
     if (!currentDialogue) {
         return null;
     }
+
+
+    // --------------------------------------------------
+    // WAIT STATE
+    // --------------------------------------------------
+
+    const waitConditionStatus =
+        evaluateWaitFor(waitingFor);
+
+
+    /*
+     * A dialogue is blocked when it has a waitFor condition
+     * that has not yet been satisfied.
+     */
+    const isBlocked =
+        waitingFor &&
+        waitConditionStatus === false;
 
 
     // --------------------------------------------------
@@ -381,20 +502,25 @@ const DialogueManager = ({
             <TypeWriter
                 text={currentDialogue.text}
 
-                // TypeWriter tells us when the current text has finished typing.
                 onTypingComplete={() => {
                     setTextDone(true);
                 }}
 
-                // Called when the player advances past the current dialogue.
                 onComplete={advanceDialogue}
 
-                // Only show the advance indicator after the text is fully typed.
-                showTriangle={textDone}
+                /*
+                 * Hide the triangle while the dialogue is
+                 * waiting for an external game event.
+                 */
+                showTriangle={
+                    textDone &&
+                    !isBlocked
+                }
             />
 
         </div>
     );
 };
+
 
 export default DialogueManager;

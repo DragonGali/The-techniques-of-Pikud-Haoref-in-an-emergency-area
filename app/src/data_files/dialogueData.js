@@ -64,8 +64,17 @@ export const dialogueData = {
         },
         "dialogue_6" : {
             text: 'לפני שנתחיל, צריך לבחור את המחוז שבוא הלומדה תתרחש, זה ישפיע על התנאים באזור.',
+        },
+        "dialogue_7" : {
+            text: '',
+            onEnter: {type: 'SET_FLAG', key: 'event', value: 'tutorial_5'},
+            waitFor: {flag: 'choseRegion'}
+        },
+        "dialogue_8" : {
+            text: 'בהצלחה',
             onEnter: {type: 'SET_FLAG', key: 'event', value: null},
             next: null
         }
+
     } 
 }

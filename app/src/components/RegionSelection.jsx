@@ -33,7 +33,7 @@ import { useGameState } from './GameState.jsx';
 import { regionData } from "../data_files/regionData.js";
 import Button from "./Button.jsx"
 
-const RegionSelection = ({ onSelectRegion }) => {
+const RegionSelection = () => {
 
     const { state, dispatch } = useGameState()
     const [chosenRegion, setChosenRegion] = useState();
@@ -70,7 +70,7 @@ const RegionSelection = ({ onSelectRegion }) => {
                             ? "var(--primary)"
                             : "var(--white)"
                     }
-                    onClick={() => {dispatch({type: 'SET_REGION', region: chosenRegion}); onSelectRegion();}}
+                    onClick={() => {dispatch({type: 'SET_REGION', region: chosenRegion}); dispatch({type: 'SET_FLAG', chosenRegion: true}); console.log(state.flags)}}
                 />
             }
 

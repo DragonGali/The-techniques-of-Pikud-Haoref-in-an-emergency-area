@@ -103,7 +103,7 @@ const initialState = {
 
   theme: 'light',
 
-  currentDialogue: "dialogue_2",
+  currentDialogue: "dialogue_5",
   region: null,
 
   flags: {
@@ -112,7 +112,7 @@ const initialState = {
 
   // TODO: Consider using named chapter IDs instead of plain numbers.
   // This would make the state easier to read and maintain.
-  completed: [1] // empty
+  completed: [] // empty
 };
 
 

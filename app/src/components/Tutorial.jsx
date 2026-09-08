@@ -243,9 +243,9 @@ const Tutorial = () => {
          * content is no longer shown and the player is presented with
          * RegionSelection instead.
          */}
-        {state.completed.includes(state.currentChapter) && (
+        {state.flags.event === 'tutorial_5' && (
           <div>
-            <RegionSelection onSelectRegion={() => {console.log("check")}}/>
+            <RegionSelection/>
           </div>
         )}
 

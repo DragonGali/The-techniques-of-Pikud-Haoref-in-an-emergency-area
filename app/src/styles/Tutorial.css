@@ -229,6 +229,14 @@
     animation: fadeIn 1.5s ease forwards;
 }
 
+/*==========================
+   Tutorial Event 4
+   ========================= */
+
+.Tutorial .tutorial-dialogue.event_5 {
+    /* display: none; */
+    visibility: none;
+}
 
 @keyframes fadeIn {
     from {
