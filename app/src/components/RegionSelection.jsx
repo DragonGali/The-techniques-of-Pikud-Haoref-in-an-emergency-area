@@ -70,7 +70,7 @@ const RegionSelection = () => {
                             ? "var(--primary)"
                             : "var(--white)"
                     }
-                    onClick={() => {dispatch({type: 'SET_REGION', region: chosenRegion}); dispatch({type: 'SET_FLAG', chosenRegion: true}); console.log(state.flags)}}
+                    onClick={() => {dispatch({type: 'SET_REGION', region: chosenRegion}); dispatch({type: 'MARK_COMPLETED', id: 'chose_region'}); console.log(state.flags)}}
                 />
             }
 

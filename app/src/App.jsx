@@ -1,9 +1,11 @@
+import { useEffect, useState } from 'react'
 import './App.css'
 
 import { GameStateProvider, useGameState } from './components/GameState.jsx'
 
 import Title from './components/Title.jsx'
 import Tutorial from './components/Tutorial.jsx'
+import GameScreen from './components/GameScreen.jsx'
 
 /*Note: READ INDEX.CSS!!! it's very important
  that you use the sma e structure as me! */
@@ -18,14 +20,22 @@ import Tutorial from './components/Tutorial.jsx'
 // things such as resetting flags or other chapter-specific state.
 const Game = () => {
 
-  const { state } = useGameState();
+  const { state, dispatch } = useGameState();
+  const [page, setPage] = useState(0);// 0
 
-  const chapters = {
-    0: <Title/>,
-    1: <Tutorial/>,
+  const loadNextPage = () => {
+      dispatch({type: 'RESET_COMPLETED'});
+      setPage(page + 1);
+  }
+
+  //I want to change this into a "page-system". Chapter system is still relevant.
+  const pages = {
+    0: <Title start={loadNextPage}/>,
+    1: <Tutorial finishTutorial={loadNextPage}/>,
+    2: <GameScreen></GameScreen>
   };
 
-  return chapters[state.currentChapter];
+  return pages[page];
 }
 
 

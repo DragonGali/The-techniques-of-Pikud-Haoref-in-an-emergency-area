@@ -107,7 +107,7 @@
  * The reusable components decide HOW those things work.
  */
 
-import { useGameState } from './GameState.jsx';
+import { useGameState, hasCompleted } from './GameState.jsx';
 
 import '../styles/Tutorial.css';
 
@@ -116,7 +116,7 @@ import SettingsWindow from './SettingsWindow.jsx';
 import PopUp from './PopUp.jsx';
 import RegionSelection from './RegionSelection.jsx'
 
-const Tutorial = () => {
+const Tutorial = ({finishTutorial}) => {
 
   const { state, dispatch } = useGameState();
 
@@ -148,7 +148,7 @@ const Tutorial = () => {
 
       <div className={`tutorial-card ${state.theme === 'light' ? 'noise' : ''}`}>
 
-        {!state.completed.includes(state.currentChapter) && (
+        {!hasCompleted(state, state.currentChapter) && (
           <>
 
             {/*
@@ -164,11 +164,12 @@ const Tutorial = () => {
              * if the typing animation feels distracting or too slow.
              */}
             <DialogueManager
-              className={`tutorial-dialogue H3 ${
+              className={`tutorial-dialogue ${state.flags.event === 'tutorial_6' ? 'H1' : 'H3'} ${
                 state.flags.event
                   ? 'event_' + state.flags.event.split('_')[1]
                   : ''
               }`}
+              onComplete = {() => {finishTutorial()}}
             />
 
             {/*
@@ -256,3 +257,4 @@ const Tutorial = () => {
 };
 
 export default Tutorial;
+

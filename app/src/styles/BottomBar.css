@@ -1,0 +1,22 @@
+.BottomBar {
+    position: absolute;
+
+    bottom: 1.5%;
+    left: 5%;
+
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+
+    gap: 1.5vw;
+}
+
+.BottomBar .settings-icon {
+    height: 12vh;
+    width: auto;
+}
+
+.BottomBar .toggle {
+    height: 10vh;
+    width: auto;
+}

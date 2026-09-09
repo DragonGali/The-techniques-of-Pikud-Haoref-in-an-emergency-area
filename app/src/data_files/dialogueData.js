@@ -44,7 +44,8 @@ import { useGameState } from '../components/GameState.jsx';
 export const dialogueData = {
     "chapter_1": {
         "dialogue_1" : {
-            text : "שלום, וברוך הבא ללומדה"
+            text : "שלום, וברוך הבא ללומדה",
+            transition: "fade"
         },
         "dialogue_2" : {
             text : "בלומדה הזאתי נעבור על 9 שלבי טכניקת פיקוד על זירת אירוע",
@@ -64,15 +65,16 @@ export const dialogueData = {
         },
         "dialogue_6" : {
             text: 'לפני שנתחיל, צריך לבחור את המחוז שבוא הלומדה תתרחש, זה ישפיע על התנאים באזור.',
+            onEnter: {type: 'SET_FLAG', key: 'event', value: null},
         },
         "dialogue_7" : {
             text: '',
             onEnter: {type: 'SET_FLAG', key: 'event', value: 'tutorial_5'},
-            waitFor: {flag: 'choseRegion'}
+            waitFor: {completed: 'chose_region'}
         },
         "dialogue_8" : {
             text: 'בהצלחה',
-            onEnter: {type: 'SET_FLAG', key: 'event', value: null},
+            onEnter: {type: 'SET_FLAG', key: 'event', value: 'tutorial_6'},
             next: null
         }
 

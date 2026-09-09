@@ -1,0 +1,27 @@
+.Screen {
+    position: absolute;
+
+    width: 96%;
+    height: 82%;
+    top: 4%;
+    left: 2%;
+
+    overflow: hidden;
+    touch-action: none;
+
+    border-radius: 21.8px;
+}
+
+.Screen-map {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    user-select: none;
+    -webkit-user-drag: none;
+
+    touch-action: none;
+}

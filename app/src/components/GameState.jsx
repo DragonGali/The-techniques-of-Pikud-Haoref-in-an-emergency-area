@@ -99,20 +99,20 @@ import React, { createContext, useContext, useReducer } from 'react';
 const GameStateContext = createContext(null);
 
 const initialState = {
-  currentChapter: 1,
+  currentChapter: 1, // 1
 
-  theme: 'light',
+  theme: 'light', //light
 
-  currentDialogue: "dialogue_5",
-  region: null,
+  currentDialogue: null, //null
+  region: null, //null
 
   flags: {
-    event: null,
+    event: null, //null
   },
 
   // TODO: Consider using named chapter IDs instead of plain numbers.
   // This would make the state easier to read and maintain.
-  completed: [] // empty
+  completed: new Set() // empty
 };
 
 
@@ -178,8 +178,19 @@ function gameStateReducer(state, action) {
     case 'MARK_COMPLETED':
       return {
         ...state,
-        completed: [...state.completed, action.chapter]
+        completed: new Set([...state.completed, action.id])
       };
+
+    //removing a completed item from the set
+    case 'CLEAR_COMPLETED':
+      const newCompleted = new Set(state.completed);
+      newCompleted.delete(action.id);
+      return { ...state, completed: newCompleted };
+
+    //resetting all the completed items(done at the end of a chapter)
+    case 'RESET_COMPLETED':
+      return { ...state, completed: new Set() };
+
 
 
     // Ignore unknown actions rather than changing the state.
@@ -247,3 +258,6 @@ export const useGameState = () => {
 
   return context;
 };
+
+//helper functions
+export const hasCompleted = (state, id) => state.completed.has(id);

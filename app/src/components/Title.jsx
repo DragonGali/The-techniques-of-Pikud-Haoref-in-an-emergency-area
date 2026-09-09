@@ -12,7 +12,7 @@ import { useGameState } from './GameState.jsx';
 // be animated: the Title screen should move downward as the Tutorial loads.
 // The chapter transition system will need to handle this rather than simply
 // replacing the screen immediately.
-const Title = ({finish}) => {
+const Title = ({start}) => {
 
   const { dispatch } = useGameState();
   const [creditsOpen, setCreditsOpen] = useState(false);
@@ -37,7 +37,7 @@ const Title = ({finish}) => {
       </p>
 
       <>{/* Might wanna make an animation for this button later. */}</>
-      <img className="broken-glass-button clickable" src="/Title/broken glass button.png" onClick={() => {dispatch({ type: 'SET_CHAPTER', chapter: 1 })}}/>
+      <img className="broken-glass-button clickable" src="/Title/broken glass button.png" onClick={() => {start()}}/>
     </div>
   
   )

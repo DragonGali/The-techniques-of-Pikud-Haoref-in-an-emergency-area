@@ -15,12 +15,13 @@
  *    Stores which chapter and which dialogue are currently active,
  *    as well as any flags/events triggered by the dialogue.
  *
- * 3. `TypeWriter`
- *    Handles displaying the dialogue text and the typing animation.
+ * 3. `TypeWriter` / `FadeText`
+ *    Handles displaying the dialogue text and the visual animation.
  *
  *
  * DialogueManager is responsible for the FLOW of dialogue.
- * TypeWriter is responsible for HOW the dialogue is displayed.
+ * TypeWriter / FadeText are responsible for HOW the dialogue
+ * is displayed.
  *
  *
  * -------------------------
@@ -42,6 +43,28 @@
  *
  *
  * -------------------------
+ * Transitions
+ * -------------------------
+ *
+ * By default, dialogue uses the TypeWriter component.
+ *
+ * A dialogue can optionally specify:
+ *
+ *     transition: "fade"
+ *
+ * When this is present, FadeText is used instead of TypeWriter.
+ *
+ * Example:
+ *
+ *     dialogue_1: {
+ *         transition: "fade",
+ *         text: "Welcome to the tutorial."
+ *     }
+ *
+ * If `transition` is not specified, TypeWriter is used.
+ *
+ *
+ * -------------------------
  * Entering a dialogue
  * -------------------------
  *
@@ -52,7 +75,7 @@
  * 1. GameState is updated with the new dialogue ID.
  * 2. Any `onEnter` actions defined by that dialogue are dispatched.
  * 3. The dialogue's waitFor condition is stored locally.
- * 4. The typing state is reset.
+ * 4. The text animation state is reset.
  *
  *
  * -------------------------
@@ -60,7 +83,7 @@
  * -------------------------
  *
  * Normally, the player advances the dialogue by interacting with
- * the TypeWriter.
+ * the TypeWriter or FadeText component.
  *
  * The next dialogue can be defined in two ways:
  *
@@ -127,9 +150,11 @@
 
 import { useEffect, useState } from 'react';
 
-import { useGameState } from './GameState.jsx';
+import { useGameState, hasCompleted } from './GameState.jsx';
 import { dialogueData } from '../data_files/dialogueData.js';
+
 import TypeWriter from './TypeWriter.jsx';
+import FadeText from './FadeText.jsx';
 
 
 const DialogueManager = ({
@@ -140,6 +165,7 @@ const DialogueManager = ({
     const { state, dispatch } = useGameState();
 
     const [textDone, setTextDone] = useState(false);
+
 
     /*
      * Store the waitFor condition of the CURRENT dialogue.
@@ -202,7 +228,7 @@ const DialogueManager = ({
 
         // Wait for a chapter to be completed.
         if (wait.completed !== undefined) {
-            return state.completed.includes(wait.completed);
+            return hasCompleted(state, wait.completed);
         }
 
 
@@ -219,7 +245,7 @@ const DialogueManager = ({
      * Enter a specific dialogue.
      *
      * This updates GameState, runs the dialogue's onEnter actions,
-     * stores its waitFor condition, and resets the TypeWriter.
+     * stores its waitFor condition, and resets the text animation.
      */
     const setDialogue = (dialogueId) => {
 
@@ -276,7 +302,7 @@ const DialogueManager = ({
         setWaitingFor(dialogue.waitFor || null);
 
 
-        // The new dialogue has not finished typing yet.
+        // The new dialogue has not finished appearing yet.
         setTextDone(false);
     };
 
@@ -384,7 +410,7 @@ const DialogueManager = ({
 
             dispatch({
                 type: 'MARK_COMPLETED',
-                chapter: state.currentChapter
+                id: state.currentChapter
             });
 
 
@@ -410,7 +436,7 @@ const DialogueManager = ({
      *
      * It runs whenever:
      *
-     * - The text finishes typing.
+     * - The text finishes appearing.
      * - The waitFor condition changes.
      * - GameState flags change.
      * - Completed chapters change.
@@ -499,24 +525,75 @@ const DialogueManager = ({
     return (
         <div className={`DialogueManager ${className}`}>
 
-            <TypeWriter
-                text={currentDialogue.text}
+            {/* ------------------------------------------------
+             * FADE TRANSITION
+             *
+             * If the current dialogue has:
+             *
+             *     transition: "fade"
+             *
+             * FadeText is used instead of TypeWriter.
+             *
+             * To disable this behavior completely, this section
+             * can be commented out and the TypeWriter below will
+             * handle all dialogue.
+             * ------------------------------------------------ */}
 
-                onTypingComplete={() => {
-                    setTextDone(true);
-                }}
+            {dialogueData["chapter_" + state.currentChapter]["dialogue_1"].transition === 'fade' ? (
 
-                onComplete={advanceDialogue}
+                <FadeText
+                    text={currentDialogue.text}
 
-                /*
-                 * Hide the triangle while the dialogue is
-                 * waiting for an external game event.
-                 */
-                showTriangle={
-                    textDone &&
-                    !isBlocked
-                }
-            />
+                    onTypingComplete={() => {
+                        setTextDone(true);
+                    }}
+
+                    onComplete={advanceDialogue}
+
+                    /*
+                     * Hide the triangle while the dialogue is
+                     * waiting for an external game event.
+                     */
+                    showTriangle={
+                        textDone &&
+                        !isBlocked
+                    }
+                />
+
+            ) : (
+
+                /* ------------------------------------------------
+                 * TYPEWRITER
+                 *
+                 * This remains the default behavior.
+                 *
+                 * Any dialogue without:
+                 *
+                 *     transition: "fade"
+                 *
+                 * will use TypeWriter.
+                 * ------------------------------------------------ */
+
+                <TypeWriter
+                    text={currentDialogue.text}
+
+                    onTypingComplete={() => {
+                        setTextDone(true);
+                    }}
+
+                    onComplete={advanceDialogue}
+
+                    /*
+                     * Hide the triangle while the dialogue is
+                     * waiting for an external game event.
+                     */
+                    showTriangle={
+                        textDone &&
+                        !isBlocked
+                    }
+                />
+
+            )}
 
         </div>
     );

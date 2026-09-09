@@ -230,11 +230,10 @@
 }
 
 /*==========================
-   Tutorial Event 4
+   Tutorial Event 5
    ========================= */
 
 .Tutorial .tutorial-dialogue.event_5 {
-    /* display: none; */
     visibility: none;
 }
 

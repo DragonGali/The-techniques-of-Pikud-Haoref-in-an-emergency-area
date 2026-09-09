@@ -1,0 +1,111 @@
+.BlueScreen {
+    position: absolute;
+
+    width: 96%;
+    height: 82%;
+    top: 4%;
+    left: 2%;
+
+    background: none;
+    overflow: hidden;
+
+    border-radius: 21.8px;
+}
+
+.BlueScreen::before,
+.BlueScreen::after {
+    content: '';
+
+    position: absolute;
+    left: 0;
+
+    width: 100%;
+    height: 50%;
+
+    background-image: url("/GameScreen/BlueScreen/Background.png");
+    background-size: 100% 200%;
+    background-repeat: no-repeat;
+
+    transition: transform 2s ease-in-out;
+
+    z-index: 2;
+}
+
+.BlueScreen::before {
+    top: 0;
+    background-position: top;
+}
+
+.BlueScreen::after {
+    bottom: 0;
+    background-position: bottom;
+}
+
+.BlueScreen.closing::before {
+    transform: translateY(-100%);
+}
+
+.BlueScreen.closing::after {
+    transform: translateY(100%);
+}
+
+.BlueScreen .loading-circle {
+    position: absolute;
+
+    width: 8vh;
+    height: 8vh;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    border: 1vh solid var(--white);
+    border-radius: 50%;
+    z-index: 3;
+}
+
+.BlueScreen .loading-circle::after {
+    content: '';
+
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    top: -1vh;
+    left: -1vh;
+
+    border: 1vh solid transparent;
+    border-top-color: var(--primary);
+    border-right-color: var(--primary);
+
+    border-radius: 50%;
+
+    animation: loading 1s linear infinite;
+}
+
+.BlueScreen .loading-circle p {
+    position: absolute;
+
+    width: max-content;
+
+    top: 100%;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    margin-top: 3vh;
+
+    color: var(--black);
+}
+
+@keyframes loading {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
