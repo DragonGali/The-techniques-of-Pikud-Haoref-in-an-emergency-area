@@ -25,43 +25,8 @@
     left: 1%;
 
     width: 10%;
-
-    padding: 0;
-    border: none;
-    background: none;
-
-    cursor: pointer;
-
-    transform-origin: center;
-    transition: transform 0.15s ease;
 }
 
-.Tutorial .toggle-button:active {
-    transform: scale(0.9);
-}
-
-
-.Tutorial .toggle-image {
-    position: absolute;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-
-    opacity: 0;
-
-    transition:
-        opacity 0.25s ease,
-        transform 0.3s ease;
-}
-
-
-/* The visible image */
-
-.Tutorial .toggle-image.active {
-    opacity: 1;
-}
 
 /* =========================
    Tutorial Card

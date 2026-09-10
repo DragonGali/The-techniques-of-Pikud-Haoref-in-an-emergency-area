@@ -7,7 +7,7 @@
     display: inline-block;
     opacity: 0;
     animation: fadeIn ease forwards;
-    animation-duration: 300ms;
+    animation-duration: 400ms; /* or pass in via inline style */
 }
 
 @keyframes fadeIn {

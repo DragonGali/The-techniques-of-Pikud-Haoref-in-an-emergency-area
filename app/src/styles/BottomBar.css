@@ -1,7 +1,7 @@
 .BottomBar {
     position: absolute;
 
-    bottom: 1.5%;
+    bottom: 1.2%;
     left: 5%;
 
     display: flex;
@@ -16,7 +16,10 @@
     width: auto;
 }
 
-.BottomBar .toggle {
+
+
+.BottomBar .toggle-image {
     height: 10vh;
     width: auto;
+    left: 5%;
 }

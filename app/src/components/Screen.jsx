@@ -1,7 +1,11 @@
 import { useRef, useState } from "react";
 import "../styles/Screen.css";
+import { useGameState, hasCompleted } from "./GameState.jsx"
 
 const Screen = () => {
+
+    const {state, dispatch} = useGameState();
+
     const [scale, setScale] = useState(1.5);
     const [position, setPosition] = useState({ x: 0, y: 0 });
 
@@ -90,27 +94,39 @@ const Screen = () => {
 
     {/*Grabbable not working :(*/}
     return (
+        <div className="Screen"
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerLeave={handlePointerUp}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}>
         <div
-            className="Screen grabbable"
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            onPointerLeave={handlePointerUp}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
+            className="map-layer"
+            style={{
+                transform: `
+                    translate(${position.x}px, ${position.y}px)
+                    scale(${scale})
+                `
+            }}
         >
             <img
-                className="Screen-map"
+                className="Screen-map grabbable"
                 src="/GameScreen/Screen/rehovot-map.png"
                 alt="Rehovot map"
-                style={{
-                    transform: `
-                        translate(${position.x}px, ${position.y}px)
-                        scale(${scale})
-                    `
-                }}
             />
+
+            {/*Rocket flying to the target, rocket should disappear and the red zone would spread out.*/}
+            {!hasCompleted(state, 'missile_sequence') && 
+                <div>
+                    <img className="missile-target" src="/GameScreen/Screen/Missile Sequence/Target.png"/>
+                    <img className="missile-rocket" src="/GameScreen/Screen/Missile Sequence/Rocket.png" />
+                </div>
+            }
+
+            {/* <div className={`strike-zone ${}`}></div> */}
         </div>
+    </div>
     );
 };
 

@@ -5,7 +5,7 @@ import '../styles/FadeText.css';
 
 const FadeText = ({
     text,
-    duration = 1000,
+    duration = 2000,
     onTypingComplete,
     onComplete,
     showTriangle = true
@@ -36,6 +36,7 @@ const FadeText = ({
         >
 
             <p
+                key={text}
                 className="clickable fade-in"
                 style={{ animationDuration: `${duration}ms` }}
             >

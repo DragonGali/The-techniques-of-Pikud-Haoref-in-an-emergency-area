@@ -1,8 +1,10 @@
 import Screen from './Screen.jsx'
 import BlueScreen from './BlueScreen.jsx'
 import BottomBar from './BottomBar.jsx';
-
+import { useGameState} from './GameState.jsx';
 import { useState } from 'react';
+
+import "../styles/GameScreen.css"
 
 /*
  * =========================
@@ -26,9 +28,10 @@ import { useState } from 'react';
 const GameScreen = () => {
 
     const [blueScreen, setBlueScreen] = useState(true)
+    const { state } = useGameState();
 
     return(
-        <div className="GameScreen">
+        <div className={`GameScreen ${state.theme}`}>
 
             {/* 
              * Temporary Blue Screen overlay.

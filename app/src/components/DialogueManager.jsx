@@ -553,9 +553,10 @@ const DialogueManager = ({
                     /*
                      * Hide the triangle while the dialogue is
                      * waiting for an external game event.
+                     * 
+                     * I made sure that the triangle appears with the text
                      */
                     showTriangle={
-                        textDone &&
                         !isBlocked
                     }
                 />
