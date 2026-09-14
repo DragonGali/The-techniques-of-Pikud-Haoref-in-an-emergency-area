@@ -7,19 +7,36 @@
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
+    background-color: var(--background);
 
     gap: 1.5vw;
+}
+
+.BottomBar .settings-button {
+    /* Reset default <button> styling so it behaves like the plain <img>
+       it's replacing, visually */
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    z-index: 1;
 }
 
 .BottomBar .settings-icon {
     height: 12vh;
     width: auto;
+
+    transition: transform 0.4s ease;
 }
 
 
+.BottomBar .settings-icon.open {
+    transform: rotate(50deg);
+}
 
 .BottomBar .toggle-image {
     height: 10vh;
     width: auto;
     left: 5%;
+    z-index: 1;
 }

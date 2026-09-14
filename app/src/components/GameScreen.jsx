@@ -1,27 +1,9 @@
-/*
- * =========================
- * Game Screen
- * =========================
- *
- * The Game Screen is the main part of the game. This is where the actual
- * gameplay takes place and where the different game UI elements are brought
- * together.
- *
- * It contains the main game Screen, the Bottom Bar, and temporary overlays
- * such as the Blue Screen.
- *
- * The Title Screen and Tutorial are handled separately and are not part of
- * the main gameplay screen.
- *
- * As the game grows, this component will also be responsible for managing
- * which screens, interfaces, and gameplay elements are currently active.
- */
-
 import Screen from './Screen.jsx'
 import BlueScreen from './BlueScreen.jsx'
 import BottomBar from './BottomBar.jsx';
+import SettingsWindow from './SettingsWindow.jsx';
 import { useGameState, hasCompleted } from './GameState.jsx';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import "../styles/GameScreen.css"
 
@@ -29,16 +11,31 @@ const GameScreen = () => {
 
     const [blueScreen, setBlueScreen] = useState(true)
     const [blueScreenDirection, setBlueScreenDirection] = useState('open')
-    const [blueScreenType, setBlueScreenType] = useState();
+    const [blueScreenType, setBlueScreenType] = useState(null);
+    const [settingsOpen, setSettingsOpen] = useState(false);
     const { state } = useGameState();
 
+    const missileSequenceHandled = useRef(false);
+
     useEffect(() => {
-        if (hasCompleted(state, 'missile_sequence')) {
+        if (hasCompleted(state, 'missile_sequence') && !missileSequenceHandled.current) {
+            missileSequenceHandled.current = true;
+            setBlueScreenType(prev => (prev === 'title' ? 'conclusion' : 'title'));
             setBlueScreenDirection('close');
-            setBlueScreenType('title');
             setBlueScreen(true);
         }
     }, [state]);
+
+    const handleSelectOption = (option) => {
+        if (option === 'home') {
+            // TODO: navigate home
+        } else if (option === 'chapter') {
+            // TODO: open chapter selection
+        } else if (option === 'exit') {
+            // TODO: exit game
+        }
+        setSettingsOpen(false);
+    };
 
     return(
         <div className={`GameScreen ${state.theme}`}>
@@ -52,7 +49,13 @@ const GameScreen = () => {
             )}
 
             <Screen/>
-            <BottomBar/>
+
+            <BottomBar
+                settingsOpen={settingsOpen}
+                onToggleSettings={() => setSettingsOpen(prev => !prev)}
+            />
+
+            {settingsOpen && <SettingsWindow selectOption={handleSelectOption} />}
 
         </div>
     );

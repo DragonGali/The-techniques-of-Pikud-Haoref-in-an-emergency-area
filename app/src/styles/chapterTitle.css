@@ -1,0 +1,50 @@
+.ChapterTitle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    justify-content: center;
+    animation: fade-in 1s;
+}
+
+.ChapterTitle * {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    color: var(--black);
+    text-shadow: 0 -13px 11.16px rgba(255, 255, 255, 0.25),
+                 0 13px 11.16px rgba(255, 255, 255, 0.25),
+                 0 5px 12.83px rgba(255, 255, 255, 1);
+}
+
+.ChapterTitle .number {
+    font-size: clamp(6rem, 12vw, 12rem);
+    font-weight: 800;
+}
+
+.ChapterTitle .divider {
+    width: 15vw;
+    height: 0.25em;
+    background-color: var(--black);
+    margin: 1vh auto;/*It's like...slightly off center*/
+
+}
+
+.ChapterTitle .name {
+    margin-top: 5vh;
+
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+    
+}

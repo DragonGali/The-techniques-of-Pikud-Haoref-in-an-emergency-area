@@ -3,18 +3,51 @@
  * Blue Screen
  * =========================
  *
- * The Blue Screen is used as a transition between chapters.
+ * The Blue Screen is used as a transition between chapters. It appears
+ * when entering a new chapter (showing the chapter title) and when
+ * finishing a chapter (showing a summary/conclusion). It covers the game
+ * screen, displays the relevant content, holds for a bit, then reveals
+ * the game again on its own.
  *
- * It appears when a new chapter begins and when a chapter ends. It provides
- * a short loading/transition sequence before revealing the next part of
- * the game.
+ * -------------------------
+ * Two directions, two very different behaviors
+ * -------------------------
+ * This component has one job (show/hide a blue overlay) but two distinct
+ * modes, controlled by the `direction` prop:
  *
- * The screen first displays the loading animation, then splits apart
- * horizontally and moves off-screen. Once the closing animation finishes,
- * the onClose callback is called so the parent component can continue
- * with the chapter.
+ *   direction="open"  -> Used only on the very first mount of BlueScreen
+ *                         for the entire game session. Reveals the game
+ *                         world for the first time. This is also the ONLY
+ *                         time the loading spinner appears (see below) —
+ *                         it's a one-time "simulation loading" screen, not
+ *                         a generic loader reused elsewhere.
+ *
+ *   direction="close"  -> Used every other time BlueScreen appears: for
+ *                         every chapter's title screen and every chapter's
+ *                         conclusion/summary screen. Covers the game with
+ *                         blue, shows `type`-specific content, holds, then
+ *                         splits open again to reveal the game and calls
+ *                         onClose().
+ *
+ * These two branches share the same CSS/markup but have separate timer
+ * logic below because the sequence of events is genuinely different, not
+ * just reversed.
+ *
+ * -------------------------
+ * The `type` prop
+ * -------------------------
+ * Only relevant when direction="close". Determines what content shows
+ * once the screen is fully covered — this is how the same component
+ * serves both the "new chapter" and "chapter finished" use cases:
+ *   "title"      -> Renders <ChapterTitle />, for entering a new chapter.
+ *   "conclusion" -> Not implemented yet — for finishing a chapter. Add a
+ *                   <ChapterConclusion /> component and a case for it
+ *                   below when it's built.
+ *
+ * The parent component (GameScreen) is responsible for deciding which
+ * `type` to pass and for toggling it between chapters — this component
+ * doesn't track or alternate that itself.
  */
-
 
 import { useEffect, useState } from 'react';
 import { useGameState, hasCompleted } from './GameState.jsx';
@@ -22,34 +55,46 @@ import '../styles/BlueScreen.css';
 
 import ChapterTitle from './ChapterTitle.jsx';
 
-const BlueScreen = ({ onClose, direction = 'open', type }) => {
+const COVER_DURATION = 2000; //2000;
+const REVEAL_DURATION = 2000;
+
+const BlueScreen = ({ onClose, direction = 'open', type, holdDuration = 6000 }) => {//6000
     const { state } = useGameState();
 
-    // split=true  -> halves off-screen (game revealed)
-    // split=false -> halves covering the screen (blue)
     const [split, setSplit] = useState(direction === 'close');
     const [loading, setLoading] = useState(direction === 'open');
+    const [showContent, setShowContent] = useState(false);
 
     useEffect(() => {
         if (direction === 'close') {
-            // Mounts already "split" (revealed) instantly, then on the next
-            // frame we un-split — same transition, reversed.
+            // Cover the game with blue
             const frame = requestAnimationFrame(() => setSplit(false));
 
-            // Closing transition takes 2s; show loading once it's covered
-            const loadingTimer = setTimeout(() => setLoading(true), 2000);
+            // Once fully covered, reveal the title/conclusion content
+            const contentTimer = setTimeout(() => {
+                setShowContent(true);
+            }, COVER_DURATION);
 
-            // Total hold before handing back to the parent
-            const closeTimer = setTimeout(() => onClose(), 5000);
+            // After holding, hide content and split back open
+            const reopenTimer = setTimeout(() => {
+                setShowContent(false);
+                setSplit(true);
+            }, COVER_DURATION + holdDuration);
+
+            // Only unmount once the reveal has finished, so nothing jumps
+            const closeTimer = setTimeout(() => {
+                onClose();
+            }, COVER_DURATION + holdDuration + REVEAL_DURATION);
 
             return () => {
                 cancelAnimationFrame(frame);
-                clearTimeout(loadingTimer);
+                clearTimeout(contentTimer);
+                clearTimeout(reopenTimer);
                 clearTimeout(closeTimer);
             };
         }
 
-        // Existing 'open' behaviour, unchanged
+        // 'open': show loading, then split once to reveal — no re-covering
         const loadingTimer = setTimeout(() => {
             setLoading(false);
             setSplit(true);
@@ -61,16 +106,25 @@ const BlueScreen = ({ onClose, direction = 'open', type }) => {
             clearTimeout(loadingTimer);
             clearTimeout(closeTimer);
         };
-    }, [onClose, direction]);
+    }, [onClose, direction, holdDuration]);
 
     return (
         <div className={`BlueScreen ${split ? 'closing' : ''}`}>
+               {/*
+              * Loading spinner: shown only during the very first-ever
+              * BlueScreen appearance in a play session (direction="open"),
+              * gated additionally on the missile sequence not having
+              * happened yet — since that sequence is itself part of the
+              * game's opening, this spinner is really tied to "has the
+              * player ever gotten past the very start of the game." It is
+              * NOT shown on chapter title/conclusion screens later on.
+              */}
             {!hasCompleted(state, 'missile_sequence') && loading && (
                 <div className="loading-circle">
                     <p className="body">טוען סימולציה</p>
                 </div>
             )}
-            {type=="title" && <ChapterTitle/>}
+            {showContent && type === 'title' && <ChapterTitle />}
         </div>
     );
 };

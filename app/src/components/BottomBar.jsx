@@ -1,26 +1,8 @@
 import {useGameState} from './GameState.jsx'
-import SettingsWindow from './SettingsWindow.jsx'
 
 import '../styles/BottomBar.css'
 
-/*
- * =========================
- * Bottom Bar
- * =========================
- *
- * The Bottom Bar is the main navigation and utility area of the Game Screen.
- *
- * It is currently very simple and does not have any functionality yet.
- * More buttons, controls, and game-related options will be added here
- * as development continues.
- *
- * The settings icon and theme toggle are currently displayed here, but
- * their functionality will be implemented later.
- * 
- * You can reuse the ones I made in the "Tutorial".
- */
-
-const BottomBar = () => {
+const BottomBar = ({ settingsOpen, onToggleSettings }) => {
 
     const { state, dispatch } = useGameState();
 
@@ -33,7 +15,17 @@ const BottomBar = () => {
 
     return(
         <div className={`BottomBar ${state.theme}`}>
-            <img className='settings-icon' src={`/General/Settings Icon-${state.theme}.png`}/>
+            <button
+                className="settings-button"
+                onClick={onToggleSettings}
+                aria-label="Toggle settings"
+            >
+                <img
+                    className={`settings-icon clickable ${settingsOpen ? 'open' : ''}`}
+                    src={`/General/Settings Icon-${state.theme}.png`}
+                />
+            </button>
+
             <button
                 className="toggle-button"
                 onClick={toggleTheme}
@@ -55,4 +47,3 @@ const BottomBar = () => {
 }
 
 export default BottomBar;
-
