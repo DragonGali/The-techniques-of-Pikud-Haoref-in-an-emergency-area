@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import "../styles/Screen.css";
-import { useGameState, hasCompleted } from "./GameState.jsx"
+import { useGameState, hasCompleted } from "./GameState.jsx";
 
 const Screen = () => {
 
@@ -124,7 +124,11 @@ const Screen = () => {
                 </div>
             }
 
-            {/* <div className={`strike-zone ${}`}></div> */}
+            <img
+                className={`explosion ${hasCompleted(state, 'missile_sequence') ? 'done' : 'playing'}`}
+                src="/GameScreen/Screen/Explosion.png"
+                onAnimationEnd={() => dispatch({ type: 'MARK_COMPLETED', id: 'missile_sequence' })}
+            />
         </div>
     </div>
     );

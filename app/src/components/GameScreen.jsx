@@ -1,11 +1,3 @@
-import Screen from './Screen.jsx'
-import BlueScreen from './BlueScreen.jsx'
-import BottomBar from './BottomBar.jsx';
-import { useGameState} from './GameState.jsx';
-import { useState } from 'react';
-
-import "../styles/GameScreen.css"
-
 /*
  * =========================
  * Game Screen
@@ -25,21 +17,38 @@ import "../styles/GameScreen.css"
  * which screens, interfaces, and gameplay elements are currently active.
  */
 
+import Screen from './Screen.jsx'
+import BlueScreen from './BlueScreen.jsx'
+import BottomBar from './BottomBar.jsx';
+import { useGameState, hasCompleted } from './GameState.jsx';
+import { useState, useEffect } from 'react';
+
+import "../styles/GameScreen.css"
+
 const GameScreen = () => {
 
     const [blueScreen, setBlueScreen] = useState(true)
+    const [blueScreenDirection, setBlueScreenDirection] = useState('open')
+    const [blueScreenType, setBlueScreenType] = useState();
     const { state } = useGameState();
+
+    useEffect(() => {
+        if (hasCompleted(state, 'missile_sequence')) {
+            setBlueScreenDirection('close');
+            setBlueScreenType('title');
+            setBlueScreen(true);
+        }
+    }, [state]);
 
     return(
         <div className={`GameScreen ${state.theme}`}>
 
-            {/* 
-             * Temporary Blue Screen overlay.
-             * This will eventually be replaced by a more general system
-             * for managing different game screens and overlays.
-             */}
             {blueScreen && (
-                <BlueScreen onClose={() => {setBlueScreen(false)}} />
+                <BlueScreen
+                    direction={blueScreenDirection}
+                    type={blueScreenType}
+                    onClose={() => setBlueScreen(false)}
+                />
             )}
 
             <Screen/>

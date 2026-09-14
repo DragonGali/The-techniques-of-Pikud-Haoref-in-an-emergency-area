@@ -36,14 +36,15 @@
 .Screen .missile-target {
     position: absolute;
 
-    /* We'll change these once you decide where the target goes */
     left: 35%;
     top: 50%;
     width: 10%;
 
     opacity: 0;
-    animation: targetAppear 1s ease forwards;
-    animation-delay: 5s;
+    animation:
+        targetAppear 1s ease forwards,
+        fadeOut 0.5s ease forwards;
+    animation-delay: 5s, 7s;
     pointer-events: none;
 
     z-index: 2;
@@ -52,16 +53,43 @@
 .Screen .missile-rocket {
     position: absolute;
     width: 10%;
-    animation: rocketFly 2s ease-in forwards;
-    animation-delay: 5s;
 
-    bottom: 0;
     left: 100%;
+    bottom: 0;
 
+    animation:
+        rocketFly 2s ease-in forwards,
+        fadeOut 0.5s ease forwards;
+    animation-delay: 5s, 7s;
 }
 
-.Screen .strike-zone {
+.Screen .explosion {
+    position: absolute;
+    width: 10%;
+    left: 32.5%;
+    top: 42%;
+}
 
+.Screen .explosion.playing {
+    opacity: 0;
+    animation: explosionAppear 1s ease-out forwards;
+    animation-delay: 7s;
+}
+
+.Screen .explosion.done {
+    opacity: 1;
+    width: 15%;
+}
+
+@keyframes explosionAppear {
+    from {
+        opacity: 0;
+        width: 10%;
+    }
+    to {
+        opacity: 1;
+        width: 15%;
+    }
 }
 
 @keyframes targetAppear {
@@ -85,5 +113,14 @@
         left: 35%;
         bottom: 30%;
         transform: rotate(-45deg);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
     }
 }
