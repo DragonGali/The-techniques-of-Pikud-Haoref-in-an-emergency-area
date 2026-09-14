@@ -55,6 +55,7 @@ const GameScreen = () => {
                 onToggleSettings={() => setSettingsOpen(prev => !prev)}
             />
 
+            /* Havent finished this yet, i'd like it to animate by rising from below the BottomBar, that would look really cool*/
             {settingsOpen && <SettingsWindow selectOption={handleSelectOption} />}
 
         </div>
