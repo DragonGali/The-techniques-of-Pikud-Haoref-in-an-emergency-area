@@ -22,7 +22,7 @@ import ChapterMap from './components/ChapterMap.jsx'
 const Game = () => {
 
   const { state, dispatch } = useGameState();
-  const [page, setPage] = useState(3);// 0
+  const [page, setPage] = useState(0);// 0
 
   const loadNextPage = () => {
       dispatch({type: 'RESET_COMPLETED'});
