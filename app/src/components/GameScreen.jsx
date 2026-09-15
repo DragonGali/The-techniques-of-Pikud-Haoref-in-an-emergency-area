@@ -7,7 +7,7 @@ import { useState, useEffect, useRef } from 'react';
 
 import "../styles/GameScreen.css"
 
-const GameScreen = () => {
+const GameScreen = ({returnToTitle, goToMap}) => {
 
     const [blueScreen, setBlueScreen] = useState(true)
     const [blueScreenDirection, setBlueScreenDirection] = useState('open')
@@ -28,9 +28,9 @@ const GameScreen = () => {
 
     const handleSelectOption = (option) => {
         if (option === 'home') {
-            // TODO: navigate home
+            returnToTitle();
         } else if (option === 'chapter') {
-            // TODO: open chapter selection
+            goToMap();
         } else if (option === 'exit') {
             // TODO: exit game
         }
@@ -55,7 +55,7 @@ const GameScreen = () => {
                 onToggleSettings={() => setSettingsOpen(prev => !prev)}
             />
 
-            /* Havent finished this yet, i'd like it to animate by rising from below the BottomBar, that would look really cool*/
+            {/* Havent finished this yet, i'd like it to animate by rising from below the BottomBar, that would look really cool*/}
             {settingsOpen && <SettingsWindow selectOption={handleSelectOption} />}
 
         </div>

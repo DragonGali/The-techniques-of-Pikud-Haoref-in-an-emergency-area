@@ -40,7 +40,7 @@ const SettingsWindow = ({ selectOption = () => {} }) => {
                     className="option clickable"
                     onClick={() => selectOption('home')}
                 >
-                    <p className="small">חזרה לעמוד הביית</p>
+                    <p className="small option-text clickable">חזרה לעמוד הביית</p>
                 </div>
 
                 {/* Open the chapter selection screen */}
@@ -48,7 +48,7 @@ const SettingsWindow = ({ selectOption = () => {} }) => {
                     className="option clickable"
                     onClick={() => selectOption('chapter')}
                 >
-                    <p className="small">בחירת פרק</p>
+                    <p className="small option-text clickable">בחירת פרק</p>
                 </div>
 
                 {/* Exit the game */}
@@ -56,7 +56,7 @@ const SettingsWindow = ({ selectOption = () => {} }) => {
                     className="option clickable"
                     onClick={() => selectOption('exit')}
                 >
-                    <p className="small option-text">יציאה</p>
+                    <p className="small option-text clickable" style={{color: "red"}}>יציאה</p>
                 </div>
 
             </div>

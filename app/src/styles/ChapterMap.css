@@ -1,0 +1,9 @@
+.ChapterMap {
+    background-image: url('/ChapterMap/Background.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    overflow: hidden;
+
+    width: 100vw;
+    height: 100vh;
+}

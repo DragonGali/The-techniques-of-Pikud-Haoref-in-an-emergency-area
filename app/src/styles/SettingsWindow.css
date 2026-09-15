@@ -34,11 +34,14 @@
 
 .SettingsWindow .option {
     border-top: 2px dashed var(--primary);
+    padding: 1.5em 0;
 }
 
 .SettingsWindow .option-text {
     color: var(--black);
+    margin: 0;
 }
+
 
 .SettingsWindow .option:hover {
     /*Fix this*/
